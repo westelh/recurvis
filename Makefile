@@ -1,10 +1,14 @@
+ALLEG=allegro5
+MAIN=src/main
+CXXFLAGS+=-I$(ALLEG)/include
+
+LINK_ALLEG=-L$(ALLEG)/lib -lallegro_main
 app: src/main/main.o
-	$(CXX) src/main/main.o -o app
+	$(CXX) $(LINK_ALLEG) -o $@ $^
 
 .PHONY: clean
 clean:
-	$(MAKE) -C src/main clean
-	$(RM) app
+	$(RM) app $(MAIN)/main.o
 
 .PHONY: run
 run: app
