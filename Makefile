@@ -2,7 +2,7 @@ ALLEG=allegro5
 MAIN=src/main
 ALLEGW=src/allegw
 LIB=allegro_main
-CXXFLAGS+=-std=c++1z -Wall
+CXXFLAGS+=-std=c++1z -Wall -Wextra -Werror
 
 app: $(MAIN)/main.o $(ALLEGW)/allegw.o
 	$(CXX) -L$(ALLEG)/lib -l$(LIB) -o $@ $^
