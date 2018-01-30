@@ -5,3 +5,7 @@ app: src/main/main.o
 clean:
 	$(MAKE) -C src/main clean
 	$(RM) app
+
+.PHONY: run
+run: app
+	./app
