@@ -10,11 +10,9 @@ namespace {
     void on_exit() {
         al_uninstall_system();
     }
-
-    auto appname = "recurvis"s;
 }
 
-app::app() {
+app::app(): appname{"recurvis"} {
     std::atexit(on_exit);
     if(al_install_system(ALLEGRO_VERSION_INT, nullptr) != true)
         throw std::runtime_error{"allegro initialization failed."};
