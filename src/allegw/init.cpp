@@ -12,7 +12,7 @@ namespace {
     }
 }
 
-app::app(): appname{"recurvis"} {
+app::app() { 
     std::atexit(on_exit);
     if(al_install_system(ALLEGRO_VERSION_INT, nullptr) != true)
         throw std::runtime_error{"allegro initialization failed."};
@@ -21,4 +21,18 @@ app::app(): appname{"recurvis"} {
 
 app::~app() {
     al_uninstall_system();
+}
+
+display::display() {
+    display_ptr = al_create_display(width, height);
+    if (display_ptr == nullptr)
+        throw std::runtime_error{"display creation failed."};
+}
+
+display::~display() {
+    al_destroy_display(display_ptr);
+}
+
+display&& app::make_display() {
+    return std::move(display{});
 }
