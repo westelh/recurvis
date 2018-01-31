@@ -4,11 +4,8 @@ ALLEGW=src/allegw
 LIB= -lallegro -lallegro_main
 CXXFLAGS+=-std=c++1z -Wall -Wextra -Werror -I$(ALLEG)/include
 
-app: $(MAIN)/main.o $(ALLEGW)/allegw.o
-	$(CXX) -L$(ALLEG)/lib $(LIB) -o $@ $^
-
-$(ALLEGW)/allegw.o: $(wildcard $(ALLEGW)/*.cpp)
-	$(CXX) $(CXXFLAGS) -c -o $@ $^
+app: $(MAIN)/main.o $(wildcard $(ALLEGW)/*.cpp)
+	$(CXX) $(CXXFLAGS) -L$(ALLEG)/lib $(LIB) -o $@ $^
 
 .PHONY: clean
 clean:

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace allegw {
     class app;
 
@@ -17,14 +15,5 @@ namespace allegw {
         static constexpr int height = 600;
         void wait_and_draw() noexcept;
         ~display();
-    };
-
-    class app {
-        static inline const std::string appname = "recurvis";
-    public:
-        app();
-        ~app();
-        // make an instance of display.
-        display&& make_display();
     };
 }
