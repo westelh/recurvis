@@ -1,9 +1,7 @@
 #include <stdexcept>
 #include <cstdlib>
-#include <string>
 #include <allegro5/allegro.h>
 #include "headers/init.hpp"
-using namespace std::string_literals;
 using namespace allegw;
 
 namespace {
