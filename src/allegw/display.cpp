@@ -17,3 +17,7 @@ void display::wait_and_draw() noexcept {
     al_flip_display();
 }
 
+void display::deleter::operator()(ALLEGRO_DISPLAY* disp) const {
+    std::cout << "destroyed " << disp << "\n";
+    al_destroy_display(disp);;
+}

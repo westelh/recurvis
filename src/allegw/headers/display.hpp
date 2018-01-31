@@ -1,19 +1,37 @@
 #pragma once
 
+#include <memory>
+#include <functional>
+
 namespace allegw {
     class app;
 
     // display will appear soon after the instantiation.
     class display {
-        // only allows app class to create an instance.
-        friend class app;
-        // display handle returned by allegro system.
-        ALLEGRO_DISPLAY* display_ptr;
-        display();
     public:
         static constexpr int width = 800;
         static constexpr int height = 600;
+    
         void wait_and_draw() noexcept;
-        ~display();
+        bool is_time_to_close() noexcept; 
+
+        ~display() = default;
+    private:
+        // only allows app class to create an instance.
+        friend class app;
+
+        // deleter for display_ptr.
+        struct deleter {
+            void operator()(ALLEGRO_DISPLAY* disp) const;
+        };
+
+        // display handle returned by allegro system.
+        std::unique_ptr<ALLEGRO_DISPLAY, deleter> display_ptr;
+
+        // event queue.
+        ALLEGRO_EVENT_QUEUE* events; 
+        ALLEGRO_TIMEOUT timeout;
+        display();
+
     };
 }
