@@ -15,6 +15,7 @@ namespace allegw {
         void wait_and_draw() noexcept;
         bool is_time_to_close() noexcept; 
 
+        display(display&&);
         ~display() = default;
     private:
         // only allows app class to create an instance.
@@ -32,6 +33,5 @@ namespace allegw {
         ALLEGRO_EVENT_QUEUE* events; 
         ALLEGRO_TIMEOUT timeout;
         display();
-
     };
 }

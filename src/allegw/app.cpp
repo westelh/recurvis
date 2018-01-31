@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iostream>
 #include <cstdlib>
 #include <allegro5/allegro.h>
 #include "headers/app.hpp"
@@ -25,6 +26,6 @@ app::~app() {
     al_uninstall_system();
 }
 
-display&& app::make_display() {
-    return std::move(display{});
+display app::make_display() {
+    return display{};
 }

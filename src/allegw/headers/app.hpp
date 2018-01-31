@@ -10,6 +10,6 @@ namespace allegw {
         app();
         ~app();
         // make an instance of display.
-        display&& make_display();
+        display make_display();
     };
 }
