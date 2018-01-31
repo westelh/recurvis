@@ -7,13 +7,16 @@ using namespace std::string_literals;
 using namespace allegw;
 
 namespace {
+    // to be called when it is shutting down.
     void on_exit() {
         al_uninstall_system();
     }
 }
 
 app::app() { 
+    // set uninstalling process.
     std::atexit(on_exit);
+    // master initialization.
     if(al_install_system(ALLEGRO_VERSION_INT, nullptr) != true)
         throw std::runtime_error{"allegro initialization failed."};
     al_set_app_name(appname.c_str());
