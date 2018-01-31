@@ -15,6 +15,7 @@ namespace allegw {
     public:
         static constexpr int width = 800;
         static constexpr int height = 600;
+        void wait_and_draw() noexcept;
         ~display();
     };
 

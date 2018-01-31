@@ -34,6 +34,10 @@ display::~display() {
     al_destroy_display(display_ptr);
 }
 
+void display::wait_and_draw() noexcept {
+    al_flip_display();
+}
+
 display&& app::make_display() {
     return std::move(display{});
 }
