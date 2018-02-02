@@ -15,7 +15,7 @@ namespace allegw {
         void wait_and_draw() noexcept;
         bool is_time_to_close() noexcept; 
 
-        display(display&&);
+        explicit display(display&&);
         ~display() = default;
     private:
         // only allows app class to create an instance.
