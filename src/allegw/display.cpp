@@ -3,11 +3,6 @@
 #include "headers/app.hpp"
 using namespace allegw;
 
-display::display(display&& disp): display_ptr{std::move(disp.display_ptr)}, events{disp.events}, 
-timeout{disp.timeout} {
-
-}
-
 display::display(): display_ptr{nullptr, deleter{}}, events{nullptr} {
     al_init_timeout(&timeout, 0.06);
     if (auto ptr = al_create_display(width, height); ptr != nullptr) { 
