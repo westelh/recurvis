@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <mutex>
 
 namespace allegw {
     class app;
@@ -19,7 +20,9 @@ namespace allegw {
     private:
         // only allows app class to create an instance.
         friend class app;
-
+        // thread safe
+        std::recursive_mutex mutex;
+        inline std::unique_lock<std::recursive_mutex> get_lock();
         // deleter for display_ptr.
         struct deleter {
             void operator()(ALLEGRO_DISPLAY* disp) const;
@@ -33,4 +36,3 @@ namespace allegw {
         ALLEGRO_TIMEOUT timeout;
         display();
     };
-}

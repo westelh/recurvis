@@ -36,3 +36,7 @@ void display::deleter::operator()(ALLEGRO_DISPLAY* disp) const {
     std::cout << "destroyed\n";
     al_destroy_display(disp);;
 }
+
+std::unique_lock<std::recursive_mutex> display::get_lock() {
+    return std::unique_lock<std::recursive_mutex>{mutex};
+}
