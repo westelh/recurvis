@@ -27,7 +27,7 @@ bool display::is_time_to_close() noexcept {
 }
 
 void display::deleter::operator()(ALLEGRO_DISPLAY* disp) const {
-    al_destroy_display(disp);;
+    al_destroy_display(disp);
 }
 
 std::unique_lock<std::recursive_mutex> display::get_lock() {
