@@ -18,8 +18,8 @@ namespace allegw {
         // only allows app class to create an instance.
         friend class app;
         // thread safe
-        std::recursive_mutex mutex;
-        inline std::unique_lock<std::recursive_mutex> get_lock();
+        mutable std::recursive_mutex mutex;
+        inline const std::unique_lock<std::recursive_mutex> get_lock() const noexcept;
         // deleter for display_ptr.
         struct deleter {
             void operator()(ALLEGRO_DISPLAY* disp) const;
