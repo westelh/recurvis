@@ -16,10 +16,12 @@ display::display(): display_ptr{nullptr, deleter{}}, events{nullptr} {
 }
 
 void display::wait_and_draw() noexcept {
+    auto lock = get_lock();
     al_flip_display();
 }
 
 bool display::is_time_to_close() noexcept {
+    auto lock = get_lock();
     static ALLEGRO_EVENT event;
     if(auto got = al_wait_for_event_until(events, &event, &timeout);
             got && event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) return true;
