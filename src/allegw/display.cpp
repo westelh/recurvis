@@ -32,7 +32,6 @@ bool display::is_time_to_close() noexcept {
 }
 
 void display::deleter::operator()(ALLEGRO_DISPLAY* disp) const {
-    std::cout << "destroyed\n";
     al_destroy_display(disp);;
 }
 
