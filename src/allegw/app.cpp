@@ -21,10 +21,10 @@ app::app() {
     al_set_app_name(appname.c_str());
 }
 
-app::~app() {
+app::~app() noexcept {
     al_uninstall_system();
 }
 
-display app::make_display() noexcept {
+display app::make_display() {
     return display{};
 }
