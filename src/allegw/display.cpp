@@ -1,5 +1,4 @@
 #include <stdexcept>
-#include <iostream>
 #include <allegro5/allegro.h>
 #include "headers/app.hpp"
 using namespace allegw;

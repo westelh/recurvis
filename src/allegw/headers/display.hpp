@@ -36,3 +36,4 @@ namespace allegw {
         ALLEGRO_TIMEOUT timeout;
         display();
     };
+}
