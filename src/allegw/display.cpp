@@ -26,7 +26,7 @@ display::display(): display_ptr{get_display(),deleter{}},
 }
 
 display::~display() noexcept {
-    delete timeout;
+    //delete timeout;
 }
 
 void display::wait_and_draw() const noexcept {
@@ -36,9 +36,9 @@ void display::wait_and_draw() const noexcept {
 
 bool display::is_time_to_close() const noexcept {
     auto lock = get_lock();
-    static ALLEGRO_EVENT* event = nullptr;
-    if(auto got = al_wait_for_event_until(events, event, timeout);
-            got && event->type == ALLEGRO_EVENT_DISPLAY_CLOSE) return true;
+    static ALLEGRO_EVENT event;
+    if(auto got = al_wait_for_event_until(events, &event, timeout);
+            got && event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) return true;
     else return false;
 }
 
