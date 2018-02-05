@@ -3,7 +3,7 @@
 #include <allegro5/allegro.h>
 #include "headers/app.hpp"
 
-using namespace allegw;
+using namespace recurvis::allegw;
 
 namespace {
     // to be called when it is shutting down.

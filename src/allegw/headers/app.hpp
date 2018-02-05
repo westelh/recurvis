@@ -3,7 +3,7 @@
 #include <string>
 #include "display.hpp"
 
-namespace allegw {
+namespace recurvis::allegw {
     class app {
         static inline const std::string appname = "recurvis";
     public:

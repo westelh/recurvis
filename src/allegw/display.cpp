@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <allegro5/allegro.h>
 #include "headers/app.hpp"
-using namespace allegw;
+using namespace recurvis::allegw;
 
 namespace {
     ALLEGRO_DISPLAY* get_display() {

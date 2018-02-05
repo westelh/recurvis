@@ -3,7 +3,7 @@ MAIN=src/main
 ALLEGW=src/allegw
 ALLEGWSRC=$(wildcard $(ALLEGW)/*.cpp)
 ALLEGWOBJ=$(ALLEGWSRC:.cpp=.o)
-RV=src/recurvis
+RV=src/rv
 RVSRC=$(wildcard $(RV)/*.cpp)
 RVOBJ=$(RVSRC:.cpp=.o)
 LIB= -lallegro -lallegro_main

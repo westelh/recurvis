@@ -3,7 +3,7 @@
 #include <memory>
 #include <mutex>
 
-namespace allegw {
+namespace recurvis::allegw{
     class app;
     class timeout;
     class event;
