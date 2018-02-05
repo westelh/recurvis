@@ -12,7 +12,7 @@ namespace allegw {
         static constexpr int width = 800;
         static constexpr int height = 600;
         void wait_and_draw() noexcept;
-        bool is_time_to_close() noexcept; 
+        bool is_time_to_close() const noexcept; 
         ~display() = default;
     private:
         // only allows app class to create an instance.
@@ -28,7 +28,7 @@ namespace allegw {
         std::unique_ptr<ALLEGRO_DISPLAY, deleter> display_ptr;
         // event queue.
         ALLEGRO_EVENT_QUEUE* events; 
-        ALLEGRO_TIMEOUT timeout;
+        mutable ALLEGRO_TIMEOUT timeout;
         display();
     };
 }
