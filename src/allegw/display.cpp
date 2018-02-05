@@ -10,10 +10,10 @@ namespace {
         else throw std::runtime_error{"display creation failed."};
     }
 
-    ALLEGRO_TIMEOUT get_timeout(float t) noexcept {
-        ALLEGRO_TIMEOUT timeout; 
-        al_init_timeout(&timeout, t);
-        return timeout;
+    ALLEGRO_TIMEOUT* get_timeout(float t) noexcept {
+        ALLEGRO_TIMEOUT* ret = new ALLEGRO_TIMEOUT; 
+        al_init_timeout(ret, t);
+        return ret;
     }
 }
 
@@ -25,16 +25,20 @@ display::display(): display_ptr{get_display(),deleter{}},
     else throw std::runtime_error{"event queue creation failed."};
 }
 
-void display::wait_and_draw() noexcept {
+display::~display() noexcept {
+    delete timeout;
+}
+
+void display::wait_and_draw() const noexcept {
     auto lock = get_lock();
     al_flip_display();
 }
 
 bool display::is_time_to_close() const noexcept {
     auto lock = get_lock();
-    static ALLEGRO_EVENT event;
-    if(auto got = al_wait_for_event_until(events, &event, &timeout);
-            got && event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) return true;
+    static ALLEGRO_EVENT* event = nullptr;
+    if(auto got = al_wait_for_event_until(events, event, timeout);
+            got && event->type == ALLEGRO_EVENT_DISPLAY_CLOSE) return true;
     else return false;
 }
 

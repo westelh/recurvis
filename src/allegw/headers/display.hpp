@@ -5,15 +5,18 @@
 
 namespace allegw {
     class app;
+    class timeout;
+    class event;
+    class event_queue;
 
     // display will appear soon after the instantiation.
     class display {
     public:
         static constexpr int width = 800;
         static constexpr int height = 600;
-        void wait_and_draw() noexcept;
+        void wait_and_draw() const noexcept;
         bool is_time_to_close() const noexcept; 
-        ~display() = default;
+        ~display() noexcept;
     private:
         // only allows app class to create an instance.
         friend class app;
@@ -28,7 +31,7 @@ namespace allegw {
         std::unique_ptr<ALLEGRO_DISPLAY, deleter> display_ptr;
         // event queue.
         ALLEGRO_EVENT_QUEUE* events; 
-        mutable ALLEGRO_TIMEOUT timeout;
+        ALLEGRO_TIMEOUT* timeout;
         display();
     };
 }
