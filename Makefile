@@ -1,4 +1,4 @@
-ALLEG=allegro5
+ALLEG=allegro5/build
 MAIN=src/main
 ALLEGW=src/allegw
 ALLEGWSRC=$(wildcard $(ALLEGW)/*.cpp)

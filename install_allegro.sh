@@ -7,6 +7,7 @@ cmake -DWANT_AUDIO=OFF\
     -DWANT_NATIVE_IMAGE_LOADER=OFF\
     -DWANT_VIDEO=OFF\
     -DWANT_TESTS=OFF\
-    -DWANT_PHYSFS=OFF .
-make -j5
+    -DWANT_PHYSFS=OFF\
+    -DCMAKE_INSTALL_PREFIX=build .
+make install -j5
 cd ..
