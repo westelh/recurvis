@@ -6,7 +6,7 @@ ALLEGWOBJ=$(ALLEGWSRC:.cpp=.o)
 RV=src/rv
 RVSRC=$(wildcard $(RV)/*.cpp)
 RVOBJ=$(RVSRC:.cpp=.o)
-LIB= -lallegro -lallegro_main
+LIB= -lallegro -lallegro_main -lallegro_primitives
 CXXFLAGS+=-std=c++1z -Wall -Wextra -Werror -I$(ALLEG)/include
 
 app: $(MAIN)/main.o $(ALLEGWOBJ) $(RVOBJ)
