@@ -1,6 +1,6 @@
 #include <allegro5/allegro.h>
 #include "../allegw/headers/app.hpp"
-#include "../rv/headers/rect.hpp"
+#include "../allegw/headers/rect.hpp"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
     recurvis::allegw::app app;
