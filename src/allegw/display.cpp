@@ -42,6 +42,10 @@ bool display::is_time_to_close() const noexcept {
     else return false;
 }
 
+void display::clear() noexcept {
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+}
+
 void display::deleter::operator()(ALLEGRO_DISPLAY* disp) const {
     al_destroy_display(disp);
 }

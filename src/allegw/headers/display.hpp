@@ -16,6 +16,7 @@ namespace recurvis::allegw{
         static constexpr int height = 600;
         void wait_and_draw() const noexcept;
         bool is_time_to_close() const noexcept; 
+        void clear() noexcept;
         ~display() noexcept;
     private:
         // only allows app class to create an instance.

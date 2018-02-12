@@ -8,9 +8,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
     recurvis::rect r{recurvis::coord{1,1}};
     int counter = 0;
     while(!display.is_time_to_close()) {
-        r.set_pos(recurvis::coord{800, 400});
-        r.width(static_cast<int>(counter/50));
-        r.height(static_cast<int>(counter/50));
+        display.clear();
+        r.set_pos(recurvis::coord{r.get_pos().first+1, r.get_pos().second});
         r.draw();
         display.wait_and_draw();
         counter++;
