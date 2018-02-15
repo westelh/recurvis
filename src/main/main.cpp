@@ -5,7 +5,7 @@
 int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
     recurvis::allegw::app app;
     auto display = app.make_display();
-    recurvis::rect r{recurvis::coord{1,1}};
+    recurvis::allegw::rect r{recurvis::coord{1,1}};
     int counter = 0;
     while(!display.is_time_to_close()) {
         display.clear();

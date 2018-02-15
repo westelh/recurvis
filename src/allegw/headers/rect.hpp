@@ -3,7 +3,7 @@
 
 #include "drawable.hpp"
 
-namespace recurvis {
+namespace recurvis::allegw {
     class rect: public drawable {
         int width_m;
         int height_m;
