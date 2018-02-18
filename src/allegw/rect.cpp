@@ -27,5 +27,5 @@ void recurvis::allegw::rect::height(int h) noexcept {
 
 void recurvis::allegw::rect::draw() {
     auto [x, y] = get_pos();
-    al_draw_rectangle(x, y, x+width(), y+height(), allegw::convert(get_color()), 55);
+    al_draw_filled_rectangle(x, y, x+width(), y+height(), allegw::convert(get_color()));
 }
