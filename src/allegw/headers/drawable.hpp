@@ -5,7 +5,7 @@
 #include <mutex>
 #include "color.hpp"
 
-namespace recurvis {
+namespace recurvis::allegw {
     using coord = std::pair<int, int>;
     
     class drawable {
