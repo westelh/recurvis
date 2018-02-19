@@ -7,7 +7,8 @@ namespace recurvis {
     class card {
         allegw::rect rect;
     public:
-        card();
+        card(const allegw::coord& c);
+        card(allegw::coord&&);
         void draw() noexcept;
     };
 }

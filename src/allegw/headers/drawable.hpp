@@ -17,6 +17,7 @@ namespace recurvis::allegw {
     public:
         drawable(const coord&, const allegw::color&);
         drawable(coord&&, allegw::color&&);
+        drawable(const drawable&);
         ~drawable() = default;
         coord get_pos() const noexcept;
         void set_pos(const coord&) noexcept;

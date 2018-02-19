@@ -6,6 +6,7 @@ std::unique_lock<std::recursive_mutex> recurvis::allegw::drawable::get_lock() co
 
 recurvis::allegw::drawable::drawable(const coord& p, const color& c): pos{p}, col{c} {  }
 recurvis::allegw::drawable::drawable(coord&& p, allegw::color&& c): pos{p}, col{c} {  }
+recurvis::allegw::drawable::drawable(const drawable& c): pos{c.get_pos()}, col{c.get_color()} {  }
 
 recurvis::allegw::coord recurvis::allegw::drawable::get_pos() const noexcept { return pos; }
 
