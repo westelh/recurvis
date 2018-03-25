@@ -2,6 +2,30 @@ apply plugin: "cpp"
 
 model {
     components {
-        main(NativeExecutableSpec)
+        main(NativeExecutableSpec) {
+            sources {
+                cpp.lib library: "graphics"
+            }
+        }
+        graphics(NativeLibrarySpec) {
+            sources {
+                cpp.lib library: "allegro_wrapper"
+            }
+        }
+        allegro_wrapper(NativeLibrarySpec) {
+            sources {
+                cpp.lib library: "allegro"
+            }
+        }
+    }
+    repositories {
+        libs(PrebuiltLibraries) {
+            allegro {
+                headers.srcDir getProperty("allegro.headers")
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file(getProperty("allegro.liballegro"))
+                }
+            }
+        }
     }
 }
