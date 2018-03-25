@@ -1,13 +1,17 @@
 apply plugin: "cpp"
 
 model {
+    buildTypes {
+        debug
+        release
+    }
     components {
         main(NativeExecutableSpec) {
             sources {
-                cpp.lib library: "graphics"
+                cpp.lib library: "recurvis"
             }
         }
-        graphics(NativeLibrarySpec) {
+        recurvis(NativeLibrarySpec) {
             sources {
                 cpp.lib library: "allegro_wrapper"
             }
@@ -24,6 +28,21 @@ model {
                 headers.srcDir getProperty("allegro.headers")
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = file(getProperty("allegro.liballegro"))
+                }
+            }
+        }
+    }
+    binaries {
+        all {
+            cppCompiler.args "-std=c++14", "-Wall", "-Wextra"
+            if (toolChain in GccCompatibleToolChain) {
+                if (buildType == buildTypes.debug) {
+                    cppCompiler.args "-g3", "-O0"
+                    cppCompiler.define "DEBUG"
+                }
+                else if (buildType == buildTypes.release) {
+                    cppCompiler.args "-O2"
+                    cppCompiler.define "NDEBUG"
                 }
             }
         }
