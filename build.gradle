@@ -9,6 +9,9 @@ model {
         main(NativeExecutableSpec) {
             sources {
                 cpp.lib library: "recurvis"
+                cpp.lib library: "allegro_wrapper"
+                cpp.lib library: "allegro"
+                cpp.lib library: "allegro_main"
             }
         }
         recurvis(NativeLibrarySpec) {
@@ -18,7 +21,9 @@ model {
         }
         allegro_wrapper(NativeLibrarySpec) {
             sources {
-                cpp.lib library: "allegro"
+                cpp {
+                    lib library: "allegro"
+                }
             }
         }
     }
@@ -28,6 +33,11 @@ model {
                 headers.srcDir getProperty("allegro.headers")
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = file(getProperty("allegro.liballegro"))
+                }
+            }
+            allegro_main {
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = file(getProperty("allegro.liballegro_main"))
                 }
             }
         }

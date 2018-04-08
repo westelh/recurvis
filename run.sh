@@ -1,1 +1,2 @@
-DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH:./allegro5/build/lib build/exe/main/main
+gradle build
+DYLD_LIBRARY_PATH="./allegro5/build/lib:./build/libs/allegro_wrapper/shared/debug/" build/exe/main/debug/main
