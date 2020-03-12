@@ -1,5 +1,9 @@
 apply plugin: "cpp"
 
+def allegroHeadersAbsPath = projectDir.toString() + "/" + getProperty("allegro.headers_from_project")
+def allegroLibAbsPath = projectDir.toString() + "/" + getProperty("allegro.liballegro_from_project")
+def allegroMainLibAbsPath = projectDir.toString() + "/" + getProperty("allegro.liballegro_main_from_project")
+
 model {
     buildTypes {
         debug
@@ -30,14 +34,15 @@ model {
     repositories {
         libs(PrebuiltLibraries) {
             allegro {
-                headers.srcDir getProperty("allegro.headers")
+                headers.srcDir allegroHeadersAbsPath
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file(getProperty("allegro.liballegro"))
+                    sharedLibraryFile = file(allegroLibAbsPath)
                 }
             }
             allegro_main {
+                headers.srcDir allegroHeadersAbsPath
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file(getProperty("allegro.liballegro_main"))
+                    sharedLibraryFile = file(allegroMainLibAbsPath)
                 }
             }
         }
@@ -47,7 +52,7 @@ model {
             cppCompiler.args "-std=c++14", "-Wall", "-Wextra"
             if (toolChain in GccCompatibleToolChain) {
                 if (buildType == buildTypes.debug) {
-                    cppCompiler.args "-g3", "-O0"
+                //    cppCompiler.args "-g3", "-O0"
                     cppCompiler.define "DEBUG"
                 }
                 else if (buildType == buildTypes.release) {
