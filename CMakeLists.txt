@@ -11,6 +11,10 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(SEND_ERROR "In-source builds are not allowed")
 endif()
 
+set(CMAKE_CXX_STANDARD 17) # C++14...
+set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
+set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
+
 # On windows, remove lib prefix
 if(WIN32)
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
@@ -38,13 +42,16 @@ set(MAIN_SRCDIR ${CMAKE_SOURCE_DIR}/src/main)
 
 add_executable(main
     ${MAIN_SRCDIR}/main.cpp
+    ${MAIN_SRCDIR}/window.cpp
+    ${MAIN_SRCDIR}/allegro_app.cpp
+    ${MAIN_SRCDIR}/allegro_window.cpp
 )
 
 message(${ALLEGRO_INCLUDE_DIRS})
 target_include_directories(main
-    PRIVATE
+    PUBLIC
         ${MAIN_SRCDIR}/headers
-        ${ALLEGRO_INCLUDEDIR}
+        ${ALLEGRO_INCLUDE_DIRS}
 )
 
 message(${ALLEGRO_LINK_LIBRARIES})
