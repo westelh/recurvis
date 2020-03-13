@@ -32,8 +32,22 @@ if(BUILD_TESTS)
 endif()
 
 find_package(PkgConfig)
-set(PKG_CONFIG_PATH ${PKG_CONFIG_PATH} ${CMAKE_SOURCE_DIR}/3rd/allegro/build/lib/pkgconfig)
-pkg_check_modules(allegro5 REQUIRED allegro-5)
+pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
 
-add_subdirectory(recurvis)
-add_subdirectory(allegro_wrapper)
+set(MAIN_SRCDIR ${CMAKE_SOURCE_DIR}/src/main)
+
+add_executable(main
+    ${MAIN_SRCDIR}/main.cpp
+)
+
+message(${ALLEGRO_INCLUDE_DIRS})
+target_include_directories(main
+    PRIVATE
+        ${MAIN_SRCDIR}/headers
+        ${ALLEGRO_INCLUDEDIR}
+)
+
+message(${ALLEGRO_LINK_LIBRARIES})
+target_link_libraries(main 
+    ${ALLEGRO_LINK_LIBRARIES}
+)
