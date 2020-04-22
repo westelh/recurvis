@@ -45,23 +45,33 @@ endif()
 find_package(PkgConfig)
 pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
 
+set(UI_SRCDIR ${CMAKE_SOURCE_DIR}/src/ui)
+set(UI_CPPDIR ${UI_SRCDIR}/cpp)
+set(UI_HEADERS_DIR ${UI_SRCDIR}/headers)
+
 set(MAIN_SRCDIR ${CMAKE_SOURCE_DIR}/src/main)
+set(MAIN_CPPDIR ${MAIN_SRCDIR}/cpp)
+set(MAIN_HEADERS_DIR ${MAIN_SRCDIR}/headers)
+
+add_library(ui STATIC
+        ${UI_HEADERS_DIR}/window.hpp
+        ${UI_HEADERS_DIR}/app_interface.hpp
+        ${UI_HEADERS_DIR}/allegro_window.hpp
+        ${UI_HEADERS_DIR}/allegro_app.hpp
+        ${UI_CPPDIR}/window.cpp
+        ${UI_CPPDIR}/allegro_window.cpp
+        ${UI_CPPDIR}/allegro_app.cpp
+        )
+
+target_include_directories(ui
+        PRIVATE ${ALLEGRO_INCLUDE_DIRS}
+        PUBLIC ${UI_HEADERS_DIR}
+        )
+
+#target_link_libraries(ui allegro-5)
+target_link_libraries(ui ${ALLEGRO_LINK_LIBRARIES})
 
 add_executable(main
-    ${MAIN_SRCDIR}/main.cpp
-    ${MAIN_SRCDIR}/window.cpp
-    ${MAIN_SRCDIR}/allegro_app.cpp
-    ${MAIN_SRCDIR}/allegro_window.cpp
+    ${MAIN_CPPDIR}/main.cpp
 )
-
-message(${ALLEGRO_INCLUDE_DIRS})
-target_include_directories(main
-    PUBLIC
-        ${MAIN_SRCDIR}/headers
-        ${ALLEGRO_INCLUDE_DIRS}
-)
-
-message(${ALLEGRO_LINK_LIBRARIES})
-target_link_libraries(main 
-    ${ALLEGRO_LINK_LIBRARIES}
-)
+target_link_libraries(main ui ${ALLEGRO_LINK_LIBRARIES})

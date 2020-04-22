@@ -19,3 +19,7 @@ void allegro_window::update() {
 void allegro_window::close() noexcept {
     window::close();
 }
+
+bool allegro_window::resize(int w, int h) const {
+    return al_resize_display(display_m, w, h);
+}

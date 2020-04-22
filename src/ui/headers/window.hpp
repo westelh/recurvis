@@ -18,9 +18,12 @@ protected:
     // called window update loop
     virtual void update() = 0;
 
+    // resize
+    virtual bool resize(int w, int h) const = 0;
+
 public:
     window(int w, int h);
-    virtual ~window();
+    virtual ~window() = default;
 
     // close window immediately
     virtual void close() noexcept;

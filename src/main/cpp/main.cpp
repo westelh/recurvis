@@ -6,7 +6,7 @@
 #include "app_interface.hpp"
 #include "allegro_app.hpp"
 
-int main(int argc, char** argv) {
+int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv) {
     auto app = std::unique_ptr<app_interface>(new allegro_app{});
 
     std::vector<std::unique_ptr<window>> windows;

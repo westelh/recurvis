@@ -2,21 +2,23 @@
 #define INCLUDE_WINDOW_HPP
 
 #include <thread>
-#include "allegro5/allegro.h"
 #include "window.hpp"
 
-// forward declaration
-class app;
+struct ALLEGRO_DISPLAY;
 
 class allegro_window final : public window {
     ALLEGRO_DISPLAY* display_m;
 
-    virtual void update() override;
+    void update() override;
+
+protected:
+    bool resize(int w, int h) const override;
+
 public:
     allegro_window(int w, int h);
-    ~allegro_window();
+    ~allegro_window() override;
 
-    virtual void close() noexcept override;
+    void close() noexcept override;
 };
 
 #endif
