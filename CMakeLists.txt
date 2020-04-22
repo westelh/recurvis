@@ -42,8 +42,8 @@ if(BUILD_TESTS)
     add_test(singletonTest singletonTest)
 endif()
 
-find_package(PkgConfig)
-pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
+#find_package(PkgConfig)
+#pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
 
 set(UI_SRCDIR ${CMAKE_SOURCE_DIR}/src/ui)
 set(UI_CPPDIR ${UI_SRCDIR}/cpp)
