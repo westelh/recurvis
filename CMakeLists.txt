@@ -5,7 +5,7 @@ project(recurvis CXX)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD)
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 option(BUILD_TESTS OFF)
-set(GTEST_DIR ${CMAKE_SOURCE_DIR}/3rd/googletest-release-1.8.0)
+set(GTEST_DIR ${CMAKE_SOURCE_DIR}/3rd/googletest)
 
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(SEND_ERROR "In-source builds are not allowed")
@@ -21,17 +21,24 @@ if(WIN32)
 endif()
 
 # Compiler options
-if(UNIX)
-    set(CMAKE_CXX_FLAGS "-Wall -std=c++14 -march=native")
-    set(CMAKE_CXX_RELEASE_FLAGS "-O2")
-    set(CMAKE_CXX_DEBUG_FLAGS "-g3 -fsanitize=leak -fsanitise=address")
-endif()
+add_compile_options(
+        -Wall -Wextra -Werror -pedantic -Wno-error=uninitialized
+        $<$<CONFIG:RELEASE>:-Ofast>
+        $<$<CONFIG:DEBUG>:-g3>
+        $<$<CONFIG:DEBUG>:-O0>
+        $<$<CONFIG:DEBUG>:-ggdb3>
+)
+add_compile_definitions(
+        $<$<CONFIG:RELEASE>:NDEBUG>
+        $<$<CONFIG:RELEASE>:BOOST_DISABLE_ASSERTS>
+)
 
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(${GTEST_DIR}/googletest)
     add_executable(singletonTest src/test/singletonTest.cpp)
-    target_link_libraries(singletonTest singleton gtest_main)
+    #target_link_libraries(singletonTest singleton gtest_main)
+    target_link_libraries(singletonTest gtest_main)
     add_test(singletonTest singletonTest)
 endif()
 
