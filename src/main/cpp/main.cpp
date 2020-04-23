@@ -9,8 +9,7 @@
 
 int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv) {
     auto app = std::unique_ptr<app_interface>(new opengl_app{});
-    auto window = app->create_window(800, 600);
-    window_updater updater(window);
-
-    updater.loop();
+    app->add_window(800, 600);
+    app->add_window(41, 444);
+    app->main_loop();
 }

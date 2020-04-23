@@ -44,6 +44,11 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(3rd/glfw)
 find_package(OpenGL REQUIRED)
 
+#############################
+# SPDLOG configuration
+#############################
+add_subdirectory(3rd/spdlog)
+
 # Compiler options
 add_compile_options(
         -Wall -Wextra -Werror -pedantic -Wno-error=uninitialized
@@ -83,7 +88,7 @@ target_include_directories(ui
         )
 
 #target_link_libraries(ui allegro-5)
-target_link_libraries(ui glfw OpenGL::GL)
+target_link_libraries(ui glfw OpenGL::GL spdlog::spdlog)
 
 add_executable(main
     ${MAIN_CPPDIR}/main.cpp

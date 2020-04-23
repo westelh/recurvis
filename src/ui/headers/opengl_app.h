@@ -10,7 +10,9 @@ public:
 
     ~opengl_app() override;
 
-    std::shared_ptr<window_interface> create_window(int w, int h) override;
+    std::unique_ptr<window_interface> create_window(int w, int h) override;
+
+    void main_loop() override;
 };
 
 

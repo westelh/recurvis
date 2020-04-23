@@ -12,10 +12,18 @@ opengl_app::opengl_app() : app_interface() {
     else initialized = true;
 }
 
-std::shared_ptr<window_interface> opengl_app::create_window(int w, int h) {
-    return std::make_shared<opengl_window>(w, h);
+std::unique_ptr<window_interface> opengl_app::create_window(int w, int h) {
+    return std::make_unique<opengl_window>(w, h);
 }
 
 opengl_app::~opengl_app() {
     glfwTerminate();
+}
+
+void opengl_app::main_loop() {
+    while (!should_exit_loop()) {
+        remove_closing_windows();
+        update_all_windows();
+        std::this_thread::sleep_for(window_interface::wait);
+    }
 }
