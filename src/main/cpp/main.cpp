@@ -13,6 +13,4 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char** argv) {
     window_updater updater(window);
 
     updater.loop();
-
-    std::this_thread::sleep_for(std::chrono::seconds(10));
 }

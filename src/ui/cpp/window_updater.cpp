@@ -13,7 +13,7 @@ windows.push_back(w);
 void window_updater::updater() {
     while (!windows.empty()) {
         auto iter = windows.begin();
-        for (auto& item : windows) {
+        for (auto &item : windows) {
             if (item->is_closing()) {
                 windows.erase(iter);
                 break;
@@ -23,6 +23,9 @@ void window_updater::updater() {
 
             ++iter;
         }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100000));
+        std::this_thread::sleep_for(wait);
     }
 }
 

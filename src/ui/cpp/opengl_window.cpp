@@ -22,8 +22,6 @@ void opengl_window::update() {
 
     /* Poll for and process events */
     glfwPollEvents();
-
-    std::this_thread::sleep_for(wait);
 }
 
 bool opengl_window::resize(int w, int h) const {

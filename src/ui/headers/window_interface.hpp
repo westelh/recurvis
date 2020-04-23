@@ -11,14 +11,11 @@
     
 */
 class window_interface {
-private:
-    std::atomic_bool close_flag_m;
-
-    std::thread update_thread_m;
-
 public:
+    // TODO:remove
     // request stopping update_thread_m
     void request_stop_update_thread() noexcept;
+
 
     // request stop and wait
     void stop_update_thread_and_wait() noexcept;
@@ -31,7 +28,7 @@ public:
 
     // resize
     [[maybe_unused]]
-    virtual bool resize(int w, int h) const = 0;
+    [[nodiscard]] virtual bool resize(int w, int h) const = 0;
 
     window_interface(int w, int h);
 

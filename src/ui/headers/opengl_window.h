@@ -6,10 +6,8 @@
 struct GLFWwindow;
 
 class opengl_window : public window_interface {
-    static constexpr int refresh_rate = 60;
-    static constexpr std::chrono::milliseconds wait = std::chrono::milliseconds(1000/refresh_rate);
-
     GLFWwindow* window;
+
 public:
     opengl_window(int w, int h, const char *title = "Window");
 
