@@ -15,5 +15,4 @@ public:
     void main_loop() override;
 };
 
-
 #endif //RECURVIS_OPENGL_APP_H

@@ -4,7 +4,6 @@
 #include <vector>
 #include <list>
 #include "spdlog/spdlog.h"
-#include "window_updater.h"
 #include "window_interface.hpp"
 
 class app_interface {

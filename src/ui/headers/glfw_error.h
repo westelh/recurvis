@@ -1,7 +1,6 @@
 #ifndef RECURVIS_GLFW_ERROR_H
 #define RECURVIS_GLFW_ERROR_H
 
-
 #include <string>
 
 class glfw_error : public std::exception {

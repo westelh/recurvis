@@ -80,8 +80,7 @@ add_library(ui STATIC
         src/ui/headers/opengl_window.h
         src/ui/cpp/glfw_error.cpp
         src/ui/headers/glfw_error.h
-        src/ui/cpp/window_updater.cpp
-        src/ui/headers/window_updater.h)
+        )
 
 target_include_directories(ui
         PUBLIC ${UI_HEADERS_DIR}
