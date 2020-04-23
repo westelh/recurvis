@@ -18,9 +18,8 @@ protected:
     }
 
     int update_all_windows() {
-        for (auto &window : windows) {
-            window->update();
-        }
+        std::for_each(windows.begin(), windows.end(),
+                      std::bind(&window_interface::window_updater::update, &updater, std::placeholders::_1));
         return windows.size();
     }
 

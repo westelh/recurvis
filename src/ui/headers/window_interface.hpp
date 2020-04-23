@@ -13,6 +13,9 @@
     
 */
 class window_interface {
+protected:
+    virtual void update() = 0;
+
 public:
     static constexpr int refresh_rate = 60;
     static constexpr std::chrono::milliseconds wait = std::chrono::milliseconds(1000 / refresh_rate);
@@ -20,8 +23,6 @@ public:
     window_interface(int w, int h);
 
     virtual ~window_interface() = default;
-
-    virtual void update() = 0;
 
     // is the window requested for closing
     virtual bool is_closing() = 0;
