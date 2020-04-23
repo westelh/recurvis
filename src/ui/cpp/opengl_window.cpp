@@ -29,14 +29,10 @@ bool opengl_window::resize(int w, int h) const {
     return false;
 }
 
-void opengl_window::close() noexcept {
-    window_interface::close();
-}
-
-void opengl_window::close_and_wait() noexcept {
-    window_interface::close_and_wait();
-}
-
 bool opengl_window::is_closing() {
     return glfwWindowShouldClose(window);
+}
+
+void opengl_window::close() noexcept {
+    glfwSetWindowShouldClose(window, GLFW_TRUE);
 }

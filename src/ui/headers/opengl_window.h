@@ -15,14 +15,12 @@ public:
 
     void close() noexcept override;
 
-    void close_and_wait() noexcept override;
-
     bool is_closing() override;
 
 protected:
     void update() override;
 
-    bool resize(int w, int h) const override;
+    [[nodiscard]] bool resize(int w, int h) const override;
 };
 
 
