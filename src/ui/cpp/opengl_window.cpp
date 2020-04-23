@@ -9,7 +9,9 @@ opengl_window::opengl_window(int w, int h, const char *title) : window_interface
     glfwMakeContextCurrent(window);
 }
 
-opengl_window::~opengl_window() = default;
+opengl_window::~opengl_window() {
+    glfwDestroyWindow(window);
+}
 
 void opengl_window::update() {
     /* Render here */
