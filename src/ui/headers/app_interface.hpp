@@ -1,13 +1,14 @@
 #pragma once
 
 #include <memory>
-#include "window.hpp"
+#include <vector>
+#include "window_interface.hpp"
 
 class app_interface {
-private:
-
 public:
     app_interface() = default;
+
     virtual ~app_interface() = default;
-    virtual std::unique_ptr<window> create_window(int w, int h) = 0;
+
+    [[nodiscard]] virtual std::shared_ptr<window_interface> create_window(int w, int h) = 0;
 };

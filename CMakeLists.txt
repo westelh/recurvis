@@ -20,18 +20,6 @@ if(WIN32)
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif()
 
-# Compiler options
-add_compile_options(
-        -Wall -Wextra -Werror -pedantic -Wno-error=uninitialized
-        $<$<CONFIG:RELEASE>:-Ofast>
-        $<$<CONFIG:DEBUG>:-g3>
-        $<$<CONFIG:DEBUG>:-O0>
-        $<$<CONFIG:DEBUG>:-ggdb3>
-)
-add_compile_definitions(
-        $<$<CONFIG:RELEASE>:NDEBUG>
-        $<$<CONFIG:RELEASE>:BOOST_DISABLE_ASSERTS>
-)
 
 if(BUILD_TESTS)
     enable_testing()
@@ -45,6 +33,30 @@ endif()
 #find_package(PkgConfig)
 #pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
 
+#############################
+# GLFW configuration
+#############################
+#Disable needless modules
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+#Add to cmake builds
+add_subdirectory(3rd/glfw)
+find_package(OpenGL REQUIRED)
+
+# Compiler options
+add_compile_options(
+        -Wall -Wextra -Werror -pedantic -Wno-error=uninitialized
+        $<$<CONFIG:RELEASE>:-Ofast>
+        $<$<CONFIG:DEBUG>:-g3>
+        $<$<CONFIG:DEBUG>:-O0>
+        $<$<CONFIG:DEBUG>:-ggdb3>
+)
+add_compile_definitions(
+        $<$<CONFIG:RELEASE>:NDEBUG>
+        $<$<CONFIG:RELEASE>:BOOST_DISABLE_ASSERTS>
+)
+
 set(UI_SRCDIR ${CMAKE_SOURCE_DIR}/src/ui)
 set(UI_CPPDIR ${UI_SRCDIR}/cpp)
 set(UI_HEADERS_DIR ${UI_SRCDIR}/headers)
@@ -54,22 +66,24 @@ set(MAIN_CPPDIR ${MAIN_SRCDIR}/cpp)
 set(MAIN_HEADERS_DIR ${MAIN_SRCDIR}/headers)
 
 add_library(ui STATIC
-        ${UI_HEADERS_DIR}/window.hpp
+        ${UI_HEADERS_DIR}/window_interface.hpp
         ${UI_HEADERS_DIR}/app_interface.hpp
-        ${UI_HEADERS_DIR}/allegro_window.hpp
-        ${UI_HEADERS_DIR}/allegro_app.hpp
-        ${UI_CPPDIR}/window.cpp
-        ${UI_CPPDIR}/allegro_window.cpp
-        ${UI_CPPDIR}/allegro_app.cpp
-        )
+        ${UI_CPPDIR}/window_interface.cpp
+        src/ui/cpp/opengl_app.cpp
+        src/ui/headers/opengl_app.h
+        src/ui/cpp/opengl_window.cpp
+        src/ui/headers/opengl_window.h
+        src/ui/cpp/glfw_error.cpp
+        src/ui/headers/glfw_error.h
+        src/ui/cpp/window_updater.cpp
+        src/ui/headers/window_updater.h)
 
 target_include_directories(ui
-        PRIVATE ${ALLEGRO_INCLUDE_DIRS}
         PUBLIC ${UI_HEADERS_DIR}
         )
 
 #target_link_libraries(ui allegro-5)
-target_link_libraries(ui ${ALLEGRO_LINK_LIBRARIES})
+target_link_libraries(ui glfw OpenGL::GL)
 
 add_executable(main
     ${MAIN_CPPDIR}/main.cpp

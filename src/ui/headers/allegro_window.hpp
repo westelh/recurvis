@@ -2,7 +2,7 @@
 #define INCLUDE_WINDOW_HPP
 
 #include <thread>
-#include "window.hpp"
+#include "window_interface.hpp"
 
 struct ALLEGRO_DISPLAY;
 
