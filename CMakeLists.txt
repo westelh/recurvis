@@ -50,9 +50,17 @@ add_subdirectory(3rd/spdlog)
 # MoltenVK configuration (macOS only)
 #############################
 if (APPLE)
+    set(MoltenVK_SDK_ROOT "~" CACHE STRING "where is MoltenVK?")
     add_library(MoltenVK STATIC IMPORTED)
     set_target_properties(MoltenVK PROPERTIES IMPORTED_LOCATION ${MoltenVK_SDK_ROOT}/MoltenVK/macOS/static/libMoltenVK.a)
     set_target_properties(MoltenVK PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MoltenVK_SDK_ROOT}/MoltenVK/include)
+
+    find_library(IOSURFACE_LIBRARY IOSurface)
+    find_library(METAL_LIBRARY Metal)
+    find_library(QUARTZCORE_LIBRARY QuartzCore)
+    set_target_properties(MoltenVK PROPERTIES INTERFACE_LINK_LIBRARIES ${IOSURFACE_LIBRARY})
+    set_target_properties(MoltenVK PROPERTIES INTERFACE_LINK_LIBRARIES ${METAL_LIBRARY})
+    set_target_properties(MoltenVK PROPERTIES INTERFACE_LINK_LIBRARIES ${QUARTZCORE_LIBRARY})
 endif ()
 
 # Compiler options
@@ -98,6 +106,6 @@ if (APPLE)
 endif ()
 
 add_executable(main
-    ${MAIN_CPPDIR}/main.cpp
-)
-target_link_libraries(main ui ${ALLEGRO_LINK_LIBRARIES})
+        ${MAIN_CPPDIR}/main.cpp
+        )
+target_link_libraries(main ui ${ALLEGRO_LINK_LIBRARIES} ${METAL_LIBRARY} ${IOSURFACE_LIBRARY} ${QUARTZCORE_LIBRARY})
