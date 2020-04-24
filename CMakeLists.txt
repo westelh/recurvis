@@ -30,9 +30,6 @@ if(BUILD_TESTS)
     add_test(singletonTest singletonTest)
 endif()
 
-#find_package(PkgConfig)
-#pkg_check_modules(ALLEGRO REQUIRED allegro-5 allegro_main-5)
-
 #############################
 # GLFW configuration
 #############################
@@ -48,6 +45,15 @@ find_package(OpenGL REQUIRED)
 # SPDLOG configuration
 #############################
 add_subdirectory(3rd/spdlog)
+
+#############################
+# MoltenVK configuration (macOS only)
+#############################
+if (APPLE)
+    add_library(MoltenVK STATIC IMPORTED)
+    set_target_properties(MoltenVK PROPERTIES IMPORTED_LOCATION ${MoltenVK_SDK_ROOT}/MoltenVK/macOS/static/libMoltenVK.a)
+    set_target_properties(MoltenVK PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${MoltenVK_SDK_ROOT}/MoltenVK/include)
+endif ()
 
 # Compiler options
 add_compile_options(
@@ -80,14 +86,16 @@ add_library(ui STATIC
         src/ui/headers/opengl_window.h
         src/ui/cpp/glfw_error.cpp
         src/ui/headers/glfw_error.h
-        )
+        src/ui/headers/glfw_with_vulkan.h)
 
 target_include_directories(ui
         PUBLIC ${UI_HEADERS_DIR}
         )
 
-#target_link_libraries(ui allegro-5)
 target_link_libraries(ui glfw OpenGL::GL spdlog::spdlog)
+if (APPLE)
+    target_link_libraries(ui MoltenVK)
+endif ()
 
 add_executable(main
     ${MAIN_CPPDIR}/main.cpp

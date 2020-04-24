@@ -1,6 +1,6 @@
-#include <GLFW/glfw3.h>
-#include <glfw_error.h>
-#include <opengl_window.h>
+#include "glfw_with_vulkan.h"
+#include "glfw_error.h"
+#include "opengl_window.h"
 #include "opengl_app.h"
 
 bool opengl_app::initialized = false;

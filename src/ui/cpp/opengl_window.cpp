@@ -1,5 +1,5 @@
-#include <GLFW/glfw3.h>
-#include <glfw_error.h>
+#include "glfw_with_vulkan.h"
+#include "glfw_error.h"
 #include "opengl_window.h"
 
 opengl_window::opengl_window(int w, int h, const char *title) : window_interface(w, h), window{nullptr} {
