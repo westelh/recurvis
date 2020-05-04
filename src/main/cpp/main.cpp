@@ -20,14 +20,6 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char **argv) {
     auto app = getVulkanApp("recurvis", appVersion);
     auto window = app->add_window(200, 150);
 
-    //auto required = getRequiredVulkanExtensions();
-//    auto required = getRequiredVulkanExtensions();
-
-//    std::vector<std::u8string> layerRequest{
-//        u8"VK_LAYER_KHRONOS_validation"
-//        //"VK_LAYER_LUNARG_api_dump"
-//    };
-
     auto layerRequest = VulkanApiWrapper::Instance::enumerateAvailableLayerNames();
     std::erase(layerRequest, u8"VK_LAYER_LUNARG_api_dump");
     auto extensionRequest = VulkanApiWrapper::Instance::enumerateAvailableInstanceExtensionNames();
