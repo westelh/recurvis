@@ -107,7 +107,7 @@ add_library(vulkan_api STATIC
         src/vulkan-api/headers/InstanceBuilder.h
         src/vulkan-api/cpp/InstanceBuilder.cpp
         src/vulkan-api/headers/InstanceBuilderDirector.h
-        src/vulkan-api/cpp/InstanceBuilderDirector.cpp src/vulkan-api/headers/InstanceBuilderDebug.h src/vulkan-api/cpp/InstanceBuilderDebug.cpp)
+        src/vulkan-api/cpp/InstanceBuilderDirector.cpp src/vulkan-api/headers/InstanceBuilderDebug.h src/vulkan-api/cpp/InstanceBuilderDebug.cpp src/vulkan-api/headers/LogicalDeviceBuilder.h src/vulkan-api/headers/LogicalDeviceBuilderDefault.h src/vulkan-api/cpp/LogicalDeviceBuilderDefault.cpp src/vulkan-api/headers/QueueRequestBuilder.h src/vulkan-api/cpp/QueueRequestBuilder.cpp)
 target_include_directories(vulkan_api
         PUBLIC src/vulkan-api/headers
         )

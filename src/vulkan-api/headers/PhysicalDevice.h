@@ -38,6 +38,8 @@ namespace VulkanApiWrapper {
 
         [[nodiscard]] std::optional<std::vector<QueueFamily>> getSuitableQueueFamilies(unsigned int flag) const;
 
+        [[nodiscard]] std::vector<QueueFamily> getAvailableQueueFamilies() const;
+
         [[nodiscard]] VkPhysicalDevice_T *getDeviceHandle() const;
 
         static std::vector<PhysicalDevice> availableDevices(const Instance &instance);

@@ -127,6 +127,10 @@ const std::vector<VkExtensionProperties> &PhysicalDevice::getAvailableDeviceExte
     return availableDeviceExtensions;
 }
 
+std::vector<QueueFamily> PhysicalDevice::getAvailableQueueFamilies() const {
+    return availableQueueFamilies;
+}
+
 bool QueueFamily::supportsGraphics() const noexcept {
     return flag & VK_QUEUE_GRAPHICS_BIT;
 }
