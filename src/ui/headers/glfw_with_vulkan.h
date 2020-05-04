@@ -2,7 +2,6 @@
 #define RECURVIS_GLFW_WITH_VULKAN_H
 
 #define GLFW_INCLUDE_VULKAN
-
 #include <GLFW/glfw3.h>
 
 #endif //RECURVIS_GLFW_WITH_VULKAN_H

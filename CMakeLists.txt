@@ -39,12 +39,16 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 #Add to cmake builds
 add_subdirectory(3rd/glfw)
-find_package(OpenGL REQUIRED)
+
+#############################
+# Vulkan
+#############################
+find_package(Vulkan REQUIRED)
 
 #############################
 # SPDLOG configuration
 #############################
-add_subdirectory(3rd/spdlog)
+find_package(spdlog REQUIRED)
 
 #############################
 # MoltenVK configuration (macOS only)
@@ -65,47 +69,100 @@ endif ()
 
 # Compiler options
 add_compile_options(
-        -Wall -Wextra -Werror -pedantic -Wno-error=uninitialized
+        -Wall
+        -Wextra
+        -Werror
+        -pedantic
         $<$<CONFIG:RELEASE>:-Ofast>
         $<$<CONFIG:DEBUG>:-g3>
         $<$<CONFIG:DEBUG>:-O0>
         $<$<CONFIG:DEBUG>:-ggdb3>
+        $<$<CXX_COMPILER_ID:Clang>:-fchar8_t>
 )
 add_compile_definitions(
         $<$<CONFIG:RELEASE>:NDEBUG>
         $<$<CONFIG:RELEASE>:BOOST_DISABLE_ASSERTS>
 )
 
-set(UI_SRCDIR ${CMAKE_SOURCE_DIR}/src/ui)
-set(UI_CPPDIR ${UI_SRCDIR}/cpp)
-set(UI_HEADERS_DIR ${UI_SRCDIR}/headers)
+add_library(util
+        src/util/cpp/Version.cpp
+        src/util/headers/Version.h
+        src/util/headers/Logger.h src/util/cpp/Logger.cpp)
+target_include_directories(util
+        PUBLIC src/util/headers
+        )
+target_link_libraries(util spdlog::spdlog)
 
-set(MAIN_SRCDIR ${CMAKE_SOURCE_DIR}/src/main)
-set(MAIN_CPPDIR ${MAIN_SRCDIR}/cpp)
-set(MAIN_HEADERS_DIR ${MAIN_SRCDIR}/headers)
+add_library(vulkan_api STATIC
+        src/vulkan-api/cpp/LogicalDevice.cpp
+        src/vulkan-api/cpp/PhysicalDevice.cpp
+        src/vulkan-api/cpp/Instance.cpp
+        src/vulkan-api/headers/Instance.h
+        src/vulkan-api/headers/LogicalDevice.h
+        src/vulkan-api/headers/PhysicalDevice.h
+        src/vulkan-api/headers/util.h
+        src/vulkan-api/cpp/VulkanError.cpp
+        src/vulkan-api/headers/VulkanError.h
+        src/vulkan-api/cpp/util.cpp
+        src/vulkan-api/headers/InstanceBuilder.h
+        src/vulkan-api/cpp/InstanceBuilder.cpp
+        src/vulkan-api/headers/InstanceBuilderDirector.h
+        src/vulkan-api/cpp/InstanceBuilderDirector.cpp src/vulkan-api/headers/InstanceBuilderDebug.h src/vulkan-api/cpp/InstanceBuilderDebug.cpp)
+target_include_directories(vulkan_api
+        PUBLIC src/vulkan-api/headers
+        )
+target_link_libraries(vulkan_api
+        PRIVATE util
+        PRIVATE spdlog::spdlog
+        PRIVATE Vulkan::Vulkan)
 
 add_library(ui STATIC
-        ${UI_HEADERS_DIR}/window_interface.hpp
-        ${UI_HEADERS_DIR}/app_interface.hpp
-        ${UI_CPPDIR}/window_interface.cpp
-        src/ui/cpp/opengl_app.cpp
-        src/ui/headers/opengl_app.h
-        src/ui/cpp/opengl_window.cpp
-        src/ui/headers/opengl_window.h
+        src/ui/headers/AbstractWindow.hpp
+        src/ui/headers/AbstractApp.hpp
+        src/ui/cpp/window_interface.cpp
+        src/ui/cpp/GlfwApp.cpp
+        src/ui/headers/GlfwApp.h
+        src/ui/cpp/GlfwWindow.cpp
+        src/ui/headers/GlfwWindow.h
         src/ui/cpp/glfw_error.cpp
         src/ui/headers/glfw_error.h
-        src/ui/headers/glfw_with_vulkan.h)
-
+        src/ui/headers/glfw_with_vulkan.h
+        src/ui/cpp/AbstractApp.cpp
+        src/ui/headers/API_Implement.h
+        src/ui/cpp/API_Implement.cpp
+        src/ui/cpp/Surface.cpp
+        src/ui/headers/Surface.h
+        src/ui/cpp/VulkanSurface.cpp
+        src/ui/headers/internal/VulkanSurface.h
+        src/ui/cpp/AbstractGpuInstance.cpp
+        src/ui/headers/AbstractGpuInstance.h
+        src/ui/cpp/VulkanGpuInstance.cpp
+        src/ui/headers/VulkanGpuInstance.h
+        src/ui/cpp/AppGpuInstanceBuilder.cpp
+        src/ui/headers/internal/AppGpuInstanceBuilder.h)
 target_include_directories(ui
-        PUBLIC ${UI_HEADERS_DIR}
+        PUBLIC src/ui/headers
+        PRIVATE src/ui/headers/internal
+        )
+target_link_libraries(ui
+        PUBLIC glfw
+        PUBLIC Vulkan::Vulkan
+        PRIVATE util
+        PRIVATE spdlog::spdlog
+        PRIVATE vulkan_api
         )
 
-target_link_libraries(ui glfw OpenGL::GL spdlog::spdlog)
-if (APPLE)
-    target_link_libraries(ui MoltenVK)
-endif ()
+add_executable(main src/main/cpp/main.cpp src/vulkan-api/headers/InstanceBuilderDirector.h)
 
-add_executable(main
-        ${MAIN_CPPDIR}/main.cpp
+target_link_libraries(main
+        ui
+        spdlog::spdlog
+        util
+        $<$<PLATFORM_ID:Darwin>:${METAL_LIBRARY}>
+        $<$<PLATFORM_ID:Darwin>:${IOSURFACE_LIBRARY}>
+        $<$<PLATFORM_ID:Darwin>:${QUARTZCORE_LIBRARY}>
+
+        # lerning
+        # TODO:delete this needless dependency
+        vulkan_api
         )
-target_link_libraries(main ui ${ALLEGRO_LINK_LIBRARIES} ${METAL_LIBRARY} ${IOSURFACE_LIBRARY} ${QUARTZCORE_LIBRARY})

@@ -12,7 +12,10 @@
  todo: rearrange visibility
     
 */
-class window_interface {
+
+class Surface;
+
+class AbstractWindow {
 protected:
     virtual void update() = 0;
 
@@ -20,9 +23,9 @@ public:
     static constexpr int refresh_rate = 60;
     static constexpr std::chrono::milliseconds wait = std::chrono::milliseconds(1000 / refresh_rate);
 
-    window_interface(int w, int h);
+    AbstractWindow(int w, int h);
 
-    virtual ~window_interface() = default;
+    virtual ~AbstractWindow() = default;
 
     // is the window requested for closing
     virtual bool is_closing() = 0;
@@ -40,6 +43,6 @@ public:
 
         ~window_updater() = default;
 
-        void update(std::unique_ptr<window_interface> &window);
+        void update(std::shared_ptr<AbstractWindow> &window);
     };
 };

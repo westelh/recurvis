@@ -1,19 +1,18 @@
 #include "glfw_with_vulkan.h"
 #include "glfw_error.h"
-#include "opengl_window.h"
+#include "GlfwWindow.h"
 
-opengl_window::opengl_window(int w, int h, const char *title) : window_interface(w, h), window{nullptr} {
+GlfwWindow::GlfwWindow(int w, int h, const char *title) : AbstractWindow(w, h), window{nullptr} {
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     window = glfwCreateWindow(w, h, title, nullptr, nullptr);
     if (window == nullptr) throw glfw_error::since_last_call();
-
-    glfwMakeContextCurrent(window);
 }
 
-opengl_window::~opengl_window() {
+GlfwWindow::~GlfwWindow() {
     glfwDestroyWindow(window);
 }
 
-void opengl_window::update() {
+void GlfwWindow::update() {
     /* Render here */
     //glClear(GL_COLOR_BUFFER_BIT);
 
@@ -24,15 +23,19 @@ void opengl_window::update() {
     glfwPollEvents();
 }
 
-bool opengl_window::resize(int w, int h) const {
+bool GlfwWindow::resize(int w, int h) const {
     glfwSetWindowSize(window, w, h);
     return false;
 }
 
-bool opengl_window::is_closing() {
+bool GlfwWindow::is_closing() {
     return glfwWindowShouldClose(window);
 }
 
-void opengl_window::close() noexcept {
+void GlfwWindow::close() noexcept {
     glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+GLFWwindow *GlfwWindow::getWindowHandle() const {
+    return window;
 }
