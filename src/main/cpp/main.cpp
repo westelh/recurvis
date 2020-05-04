@@ -28,18 +28,12 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char **argv) {
 //        //"VK_LAYER_LUNARG_api_dump"
 //    };
 
-    auto layerRequest = recurvis::apply(VulkanApiWrapper::Instance::enumerateAvailableLayers(), [](const auto &prop) {
-        return std::u8string{
-                reinterpret_cast<const char8_t *>(prop.layerName)};
-    });
-    auto required = recurvis::apply(VulkanApiWrapper::Instance::enumerateAvailableInstanceExtensions(),
-                                    [](const auto &prop) {
-                                        return std::u8string{
-                                                reinterpret_cast<const char8_t *>(prop.extensionName)};
-                                    });
+    auto layerRequest = VulkanApiWrapper::Instance::enumerateAvailableLayerNames();
+    std::erase(layerRequest, u8"VK_LAYER_LUNARG_api_dump");
+    auto extensionRequest = VulkanApiWrapper::Instance::enumerateAvailableInstanceExtensionNames();
 
     std::shared_ptr<AbstractGpuInstance> instance(
-            new VulkanGpuInstance(std::dynamic_pointer_cast<GlfwApp>(app), required, layerRequest));
+            new VulkanGpuInstance(std::dynamic_pointer_cast<GlfwApp>(app), extensionRequest, layerRequest));
 
     std::shared_ptr<Surface> surface = instance->getSurface(window);
 
