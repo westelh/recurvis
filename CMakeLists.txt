@@ -107,7 +107,17 @@ add_library(vulkan_api STATIC
         src/vulkan-api/headers/InstanceBuilder.h
         src/vulkan-api/cpp/InstanceBuilder.cpp
         src/vulkan-api/headers/InstanceBuilderDirector.h
-        src/vulkan-api/cpp/InstanceBuilderDirector.cpp src/vulkan-api/headers/InstanceBuilderDebug.h src/vulkan-api/cpp/InstanceBuilderDebug.cpp src/vulkan-api/headers/LogicalDeviceBuilder.h src/vulkan-api/headers/LogicalDeviceBuilderDefault.h src/vulkan-api/cpp/LogicalDeviceBuilderDefault.cpp src/vulkan-api/headers/QueueRequestBuilder.h src/vulkan-api/cpp/QueueRequestBuilder.cpp)
+        src/vulkan-api/cpp/InstanceBuilderDirector.cpp
+        src/vulkan-api/headers/InstanceBuilderDebug.h
+        src/vulkan-api/cpp/InstanceBuilderDebug.cpp
+        src/vulkan-api/headers/LogicalDeviceBuilder.h
+        src/vulkan-api/headers/LogicalDeviceBuilderDefault.h
+        src/vulkan-api/cpp/LogicalDeviceBuilderDefault.cpp
+        #        src/vulkan-api/headers/QueueRequestBuilder.h
+        #        src/vulkan-api/cpp/QueueRequestBuilder.cpp
+        #        src/vulkan-api/headers/QueueHabitat.h
+        #        src/vulkan-api/cpp/QueueHabitat.cpp
+        src/vulkan-api/cpp/LogicalDeviceBuilder.cpp)
 target_include_directories(vulkan_api
         PUBLIC src/vulkan-api/headers
         )
@@ -152,7 +162,7 @@ target_link_libraries(ui
         PRIVATE vulkan_api
         )
 
-add_executable(main src/main/cpp/main.cpp src/vulkan-api/headers/InstanceBuilderDirector.h)
+add_executable(main src/main/cpp/main.cpp)
 
 target_link_libraries(main
         ui
