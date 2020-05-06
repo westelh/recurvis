@@ -16,19 +16,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
 set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
 
 # On windows, remove lib prefix
-if(WIN32)
+if (WIN32)
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
-endif()
+endif ()
 
-
-if(BUILD_TESTS)
+#############################
+# Testing
+#############################
+if (BUILD_TESTS)
     enable_testing()
-    add_subdirectory(${GTEST_DIR}/googletest)
+    add_subdirectory(3rd/googletest)
     add_executable(singletonTest src/test/singletonTest.cpp)
     #target_link_libraries(singletonTest singleton gtest_main)
-    target_link_libraries(singletonTest gtest_main)
+    target_link_libraries(singletonTest PRIVATE ${GTEST_BOTH_LIBRARIES})
+    target_include_directories(singletonTest PRIVATE ${GTEST_INCLUDE_DIRS})
     add_test(singletonTest singletonTest)
-endif()
+endif ()
 
 #############################
 # GLFW configuration
