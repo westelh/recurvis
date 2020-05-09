@@ -16,9 +16,17 @@ namespace VulkanApiWrapper {
                       const std::vector<VkDeviceQueueCreateInfo> &queueCreateInfo,
                       const std::vector<std::u8string> &extensionsToUse);
 
+        LogicalDevice(const LogicalDevice &) = delete;
+
+        LogicalDevice(LogicalDevice &&) = delete;
+
+        LogicalDevice &operator=(const LogicalDevice &) = delete;
+
+        LogicalDevice &operator=(LogicalDevice &&) = delete;
+
         virtual ~LogicalDevice();
 
-        [[nodiscard]] const VkDevice_T *getHandler() const;
+        [[nodiscard]] VkDevice_T *getHandler() const;
 
         [[nodiscard]] const std::vector<VkQueue> &getQueues() const;
     };

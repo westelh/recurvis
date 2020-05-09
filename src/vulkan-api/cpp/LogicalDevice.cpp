@@ -111,6 +111,6 @@ const std::vector<VkQueue> &LogicalDevice::getQueues() const {
     return queues;
 }
 
-const VkDevice_T *LogicalDevice::getHandler() const {
+VkDevice_T *LogicalDevice::getHandler() const {
     return handler;
 }
