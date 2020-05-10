@@ -22,10 +22,14 @@ namespace VulkanApiWrapper {
 
         virtual ~SwapChain();
 
+        [[nodiscard]] std::vector<VkImage> getSwapChainImages() const;
+
     private:
         std::shared_ptr<LogicalDevice> logicalDevice;
 
         VkSwapchainKHR handler;
+
+        std::vector<VkImage> swapChainImages;
     };
 }
 

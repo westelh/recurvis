@@ -14,6 +14,23 @@ namespace {
     bool validateDevice(const LogicalDevice &device) noexcept {
         return device.checkIfExtensionEnabled(u8"VK_KHR_swapchain");
     }
+
+    uint32_t countSwapChainImages(VkDevice device, VkSwapchainKHR swapchain) {
+        uint32_t ret;
+        if (auto result = vkGetSwapchainImagesKHR(device, swapchain, &ret, nullptr); result != VK_SUCCESS) {
+            throw VulkanError(result);
+        }
+        return ret;
+    }
+
+    std::vector<VkImage> querySwapChainImages(VkDevice device, VkSwapchainKHR swapchain) {
+        uint32_t size = countSwapChainImages(device, swapchain);
+        std::vector<VkImage> ret(size);
+        if (auto result = vkGetSwapchainImagesKHR(device, swapchain, &size, ret.data()); result != VK_SUCCESS) {
+            throw VulkanError(result);
+        }
+        return ret;
+    }
 }
 
 SwapChain::SwapChain(std::shared_ptr<LogicalDevice> logicalDevice_, VkSwapchainCreateInfoKHR createInfo) :
@@ -26,6 +43,7 @@ SwapChain::SwapChain(std::shared_ptr<LogicalDevice> logicalDevice_, VkSwapchainC
                                                                                                          VK_SUCCESS) {
         throw VulkanError(result);
     }
+    swapChainImages = querySwapChainImages(logicalDevice->getHandler(), this->handler);
 }
 
 SwapChain::~SwapChain() {
@@ -45,4 +63,8 @@ SwapChain &SwapChain::operator=(SwapChain &&move) noexcept {
     this->handler = move.handler;
     move.handler = nullptr;
     return *this;
+}
+
+std::vector<VkImage> SwapChain::getSwapChainImages() const {
+    return swapChainImages;
 }
