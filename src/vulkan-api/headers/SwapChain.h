@@ -5,8 +5,6 @@
 #include <vulkan/vulkan.h>
 #include "PhysicalDevice.h"
 
-// TODO: check if device has swapchain support
-
 namespace VulkanApiWrapper {
     class LogicalDevice;
 

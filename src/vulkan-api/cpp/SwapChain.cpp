@@ -11,8 +11,8 @@ namespace {
         return createInfo.sType == VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     }
 
-    // TODO: check if device supports VK_swapchain
     bool validateDevice(const LogicalDevice &device) noexcept {
+        return device.checkIfExtensionEnabled(u8"VK_KHR_swapchain");
     }
 }
 
