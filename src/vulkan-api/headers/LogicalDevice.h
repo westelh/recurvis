@@ -5,6 +5,8 @@
 #include <vulkan/vulkan.h>
 #include "PhysicalDevice.h"
 
+// TODO: add method that returns which extensions are enabled
+
 namespace VulkanApiWrapper {
     class LogicalDevice {
         VkDevice handler{};

@@ -121,7 +121,7 @@ add_library(vulkan_api STATIC
         #        src/vulkan-api/headers/QueueHabitat.h
         #        src/vulkan-api/cpp/QueueHabitat.cpp
         #        src/vulkan-api/cpp/LogicalDeviceBuilder.cpp
-        )
+        src/vulkan-api/headers/SwapChain.h src/vulkan-api/cpp/SwapChain.cpp)
 target_include_directories(vulkan_api
         PUBLIC src/vulkan-api/headers
         )
