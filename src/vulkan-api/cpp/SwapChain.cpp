@@ -58,13 +58,6 @@ SwapChain::SwapChain(SwapChain &&move) noexcept:
     move.handler = nullptr;
 }
 
-SwapChain &SwapChain::operator=(SwapChain &&move) noexcept {
-    this->logicalDevice = std::move(move.logicalDevice);
-    this->handler = move.handler;
-    move.handler = nullptr;
-    return *this;
-}
-
 std::vector<VkImage> SwapChain::getSwapChainImages() const {
     return swapChainImages;
 }

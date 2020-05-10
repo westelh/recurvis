@@ -14,12 +14,11 @@ namespace VulkanApiWrapper {
 
         SwapChain(const SwapChain &) = delete;
 
-        SwapChain &operator=(const SwapChain &) = delete;
-
-        // TODO: destroy previous resource properly
         SwapChain(SwapChain &&move) noexcept;
 
-        SwapChain &operator=(SwapChain &&move) noexcept;
+        SwapChain &operator=(const SwapChain &) = delete;
+
+        SwapChain &operator=(SwapChain &&move) = delete;
 
         virtual ~SwapChain();
 
