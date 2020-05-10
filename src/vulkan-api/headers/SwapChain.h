@@ -16,6 +16,7 @@ namespace VulkanApiWrapper {
 
         SwapChain &operator=(const SwapChain &) = delete;
 
+        // TODO: destroy previous resource properly
         SwapChain(SwapChain &&move) noexcept;
 
         SwapChain &operator=(SwapChain &&move) noexcept;
