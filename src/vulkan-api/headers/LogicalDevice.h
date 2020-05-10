@@ -5,14 +5,8 @@
 #include <vulkan/vulkan.h>
 #include "PhysicalDevice.h"
 
-// TODO: add method that returns which extensions are enabled
-
 namespace VulkanApiWrapper {
     class LogicalDevice {
-        VkDevice handler{};
-
-        std::vector<VkQueue> queues;
-
     public:
         LogicalDevice(const PhysicalDevice &physicalDevice, VkPhysicalDeviceFeatures featuresToUse,
                       const std::vector<VkDeviceQueueCreateInfo> &queueCreateInfo,
@@ -31,6 +25,17 @@ namespace VulkanApiWrapper {
         [[nodiscard]] VkDevice_T *getHandler() const;
 
         [[nodiscard]] const std::vector<VkQueue> &getQueues() const;
+
+        [[nodiscard]] std::vector<std::u8string_view> getEnabledExtensions() const noexcept;
+
+        [[nodiscard]] bool checkIfExtensionEnabled(std::u8string_view extensionName) const noexcept;
+
+    private:
+        VkDevice handler{};
+
+        std::vector<VkQueue> queues;
+
+        std::vector<std::u8string> enabledExtensions;
     };
 }
 

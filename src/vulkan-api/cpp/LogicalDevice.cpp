@@ -99,8 +99,7 @@ LogicalDevice::LogicalDevice(const PhysicalDevice &physicalDevice, VkPhysicalDev
                              const std::vector<std::u8string> &extensionsToUse)
         : handler{createDevice(physicalDevice, featuresToUse, queueCreateInfo, extensionsToUse)},
           queues(createQueues(handler, queueCreateInfo)) {
-
-
+    enabledExtensions = extensionsToUse;
 }
 
 LogicalDevice::~LogicalDevice() {
@@ -113,4 +112,15 @@ const std::vector<VkQueue> &LogicalDevice::getQueues() const {
 
 VkDevice_T *LogicalDevice::getHandler() const {
     return handler;
+}
+
+std::vector<std::u8string_view> LogicalDevice::getEnabledExtensions() const noexcept {
+    return recurvis::apply(enabledExtensions, [](const auto &item) -> std::u8string_view {
+        return item;
+    });
+}
+
+bool LogicalDevice::checkIfExtensionEnabled(std::u8string_view extensionName) const noexcept {
+    const auto &&enabled = getEnabledExtensions();
+    return std::find(enabled.begin(), enabled.end(), extensionName) != enabled.end();
 }
