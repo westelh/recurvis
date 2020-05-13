@@ -10,6 +10,7 @@ namespace VulkanApiWrapper {
     class DefaultSwapchainCreateInfoBuilder : public SwapchainCreateInfoBuilder {
     public:
         DefaultSwapchainCreateInfoBuilder(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface,
+                                          VkImageUsageFlags flags,
                                           VkSwapchainKHR oldSwapchain = VK_NULL_HANDLE);
 
         ~DefaultSwapchainCreateInfoBuilder() override = default;
@@ -36,6 +37,8 @@ namespace VulkanApiWrapper {
 
         void setOldSwapchain() override;
 
+        void setImageUsage() override;
+
         VkSwapchainCreateInfoKHR build() override;
 
         [[nodiscard]] virtual VkSurfaceFormatKHR
@@ -48,6 +51,8 @@ namespace VulkanApiWrapper {
 
     private:
         VkSurfaceKHR surface{};
+
+        VkImageUsageFlags flags;
 
         VkSwapchainKHR oldSwapchain{};
 

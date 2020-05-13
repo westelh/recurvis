@@ -53,9 +53,11 @@ namespace {
 }
 
 DefaultSwapchainCreateInfoBuilder::DefaultSwapchainCreateInfoBuilder(VkPhysicalDevice physicalDevice,
-                                                                     VkSurfaceKHR surface, VkSwapchainKHR oldSwapchain_)
+                                                                     VkSurfaceKHR surface, VkImageUsageFlags flags_,
+                                                                     VkSwapchainKHR oldSwapchain_)
         :
         surface(surface),
+        flags(flags_),
         oldSwapchain(oldSwapchain_),
         capabilities(queryCapabilities(physicalDevice, surface)),
         availableFormats(queryFormats(physicalDevice, surface)),
@@ -143,6 +145,10 @@ VkExtent2D DefaultSwapchainCreateInfoBuilder::chooseSwapExtent(const VkSurfaceCa
 
         return actualExtent;
     }
+}
+
+void DefaultSwapchainCreateInfoBuilder::setImageUsage() {
+    createInfo.imageUsage = this->flags;
 }
 
 
