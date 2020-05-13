@@ -1,6 +1,8 @@
 #include <utility>
 #include "SwapChain.h"
 #include "VulkanError.h"
+#include "SwapchainCreateInfoBuilder.h"
+#include "SwapchainCreateInfoBuilderDirector.h"
 #include "LogicalDevice.h"
 
 using namespace VulkanApiWrapper;
@@ -33,16 +35,19 @@ namespace {
     }
 }
 
-SwapChain::SwapChain(std::shared_ptr<LogicalDevice> logicalDevice_, VkSwapchainCreateInfoKHR createInfo) :
+SwapChain::SwapChain(pLogicalDevice logicalDevice_, pInfoBuilder &&infoBuilder_) :
         logicalDevice(std::move(logicalDevice_)),
-        handler(nullptr) {
+        infoBuilder(std::move(infoBuilder_)),
+        handler(nullptr),
+        swapChainImages(),
+        imageViews() {
+    if (!infoBuilder) throw std::invalid_argument("info builder cannot be null!");
     if (!logicalDevice) throw std::invalid_argument("Logical device cannot be null!");
     if (!validateDevice(*logicalDevice)) throw std::invalid_argument("Invalid device!");
-    if (!validateCreateInfo(createInfo)) throw std::invalid_argument("Invalid create info!");
-    if (auto result = vkCreateSwapchainKHR(logicalDevice->getHandler(), &createInfo, nullptr, &handler); result !=
-                                                                                                         VK_SUCCESS) {
+    auto info = SwapchainCreateInfoBuilderDirector{std::move(infoBuilder_)}.construct();
+    if (!validateCreateInfo(info)) throw std::logic_error("Invalid swapchain create info!");
+    if (auto result = vkCreateSwapchainKHR(logicalDevice->getHandler(), &info, nullptr, &handler); result != VK_SUCCESS)
         throw VulkanError(result);
-    }
     swapChainImages = querySwapChainImages(logicalDevice->getHandler(), this->handler);
 }
 
