@@ -1,7 +1,7 @@
 #include "InstanceBuilder.h"
 #include "InstanceBuilderDirector.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 InstanceBuilderDirector::InstanceBuilderDirector(std::unique_ptr<InstanceBuilder> &&builder_) : builder(
         std::move(builder_)) {

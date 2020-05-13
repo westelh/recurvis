@@ -1,7 +1,7 @@
 #include "SwapchainCreateInfoBuilderDirector.h"
 #include "SwapchainCreateInfoBuilder.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 SwapchainCreateInfoBuilderDirector::SwapchainCreateInfoBuilderDirector(
         std::unique_ptr<SwapchainCreateInfoBuilder> builder_) :

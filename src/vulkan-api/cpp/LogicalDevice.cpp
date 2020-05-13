@@ -4,7 +4,7 @@
 #include "util.h"
 #include "LogicalDevice.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 using namespace recurvis;
 
 namespace {
@@ -98,6 +98,7 @@ LogicalDevice::LogicalDevice(const PhysicalDevice &physicalDevice, VkPhysicalDev
                              const std::vector<VkDeviceQueueCreateInfo> &queueCreateInfo,
                              const std::vector<std::u8string> &extensionsToUse)
         : handler{createDevice(physicalDevice, featuresToUse, queueCreateInfo, extensionsToUse)},
+          physicalDevice(physicalDevice),
           queues(createQueues(handler, queueCreateInfo)) {
     enabledExtensions = extensionsToUse;
 }
@@ -123,4 +124,8 @@ std::vector<std::u8string_view> LogicalDevice::getEnabledExtensions() const noex
 bool LogicalDevice::checkIfExtensionEnabled(std::u8string_view extensionName) const noexcept {
     const auto &&enabled = getEnabledExtensions();
     return std::find(enabled.begin(), enabled.end(), extensionName) != enabled.end();
+}
+
+const PhysicalDevice &LogicalDevice::getPhysicalDevice() const {
+    return physicalDevice;
 }

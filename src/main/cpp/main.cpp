@@ -9,13 +9,9 @@
 #include <set>
 #include <vulkan/vulkan.h>
 #include <LogicalDevice.h>
-#include <VulkanError.h>
 #include "PhysicalDevice.h"
-#include "ConcurrentSwapchainCreateInfoBuilder.h"
+#include "ConcurrentSwapchain.h"
 #include "Instance.h"
-#include "SwapChain.h"
-
-// TODO:Rename VulkanApiWrapper to VAW
 
 void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::shared_ptr<VulkanSurface> &surface);
 
@@ -25,9 +21,9 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char **argv) {
     auto app = getVulkanApp("recurvis", appVersion);
     auto window = app->add_window(200, 150);
 
-    auto layerRequest = VulkanApiWrapper::Instance::enumerateAvailableLayerNames();
+    auto layerRequest = VAW::Instance::enumerateAvailableLayerNames();
     std::erase(layerRequest, u8"VK_LAYER_LUNARG_api_dump");
-    auto extensionRequest = VulkanApiWrapper::Instance::enumerateAvailableInstanceExtensionNames();
+    auto extensionRequest = VAW::Instance::enumerateAvailableInstanceExtensionNames();
 
     std::shared_ptr<AbstractGpuInstance> instance(
             new VulkanGpuInstance(std::dynamic_pointer_cast<GlfwApp>(app), extensionRequest, layerRequest));
@@ -48,7 +44,7 @@ void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::sha
     [[maybe_unused]] auto instanceHandler = instance->getHandler();
     auto &internalInstance = (*instance).pimpl->instance;
 
-    const auto &devices = VulkanApiWrapper::PhysicalDevice::availableDevices(internalInstance);
+    const auto &devices = VAW::PhysicalDevice::availableDevices(internalInstance);
     const auto &targetDevice = devices.front();
     const auto &families = targetDevice.getSuitableQueueFamilies(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_TRANSFER_BIT);
 
@@ -78,15 +74,12 @@ void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::sha
 
     VkPhysicalDeviceFeatures features{};
     std::vector<std::u8string> deviceExtensions{u8"VK_KHR_swapchain"};
-    auto logicalDevice = std::make_shared<VulkanApiWrapper::LogicalDevice>(targetDevice, features, queueCreateInfos,
-                                                                           deviceExtensions);
+    auto logicalDevice = std::make_shared<VAW::LogicalDevice>(targetDevice, features, queueCreateInfos,
+                                                              deviceExtensions);
 
     [[maybe_unused]] const auto &queues = logicalDevice->getQueues();
 
-    VulkanApiWrapper::SwapChain swapChain(logicalDevice, std::unique_ptr<VulkanApiWrapper::SwapchainCreateInfoBuilder>(
-            new VulkanApiWrapper::ConcurrentSwapchainCreateInfoBuilder(targetDevice.getDeviceHandle(),
-                                                                       surface->getHandler(), 0))
-    );
+    VAW::ConcurrentSwapchain swapChain(logicalDevice, surface->getHandler(), VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
 
     std::vector<VkImageView> swapChainImageViews;
     swapChainImageViews.resize(swapChain.getSwapChainImages().size());

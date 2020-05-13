@@ -1,12 +1,12 @@
 #include "ConcurrentSwapchainCreateInfoBuilder.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 ConcurrentSwapchainCreateInfoBuilder::ConcurrentSwapchainCreateInfoBuilder(VkPhysicalDevice physicalDevice,
                                                                            VkSurfaceKHR surface,
-                                                                           VkImageUsageFlags flags,
+                                                                           VkImageUsageFlags usageFlags,
                                                                            VkSwapchainKHR oldSwapchain)
-        : DefaultSwapchainCreateInfoBuilder(physicalDevice, surface, flags, oldSwapchain) {}
+        : DefaultSwapchainCreateInfoBuilder(physicalDevice, surface, usageFlags, oldSwapchain) {}
 
 void ConcurrentSwapchainCreateInfoBuilder::setImageSharingMode() {
     createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;

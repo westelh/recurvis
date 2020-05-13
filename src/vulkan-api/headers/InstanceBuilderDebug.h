@@ -3,8 +3,8 @@
 
 #include "InstanceBuilder.h"
 
-namespace VulkanApiWrapper {
-    class InstanceBuilderDebug : public VulkanApiWrapper::InstanceBuilder {
+namespace VAW {
+    class InstanceBuilderDebug : public VAW::InstanceBuilder {
     public:
         InstanceBuilderDebug(std::unique_ptr<InstanceBuilder> &&appGpuInstanceBuilder);
 
@@ -26,7 +26,7 @@ namespace VulkanApiWrapper {
 
         void setAllDeclaredExtensions() override;
 
-        VulkanApiWrapper::Instance build() override;
+        VAW::Instance build() override;
 
     private:
         std::unique_ptr<InstanceBuilder> appGpuInstanceBuilder;

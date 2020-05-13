@@ -4,7 +4,7 @@
 #include "VulkanError.h"
 #include "LogicalDevice.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 ImageView::ImageView(std::shared_ptr<LogicalDevice> device_, VkImageViewCreateInfo createInfo) :
         device(std::move(device_)) {

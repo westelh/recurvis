@@ -9,7 +9,7 @@
 
 // TODO:put implementation of Impl here
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 namespace {
     std::unique_ptr<VulkanGpuInstance::Impl>

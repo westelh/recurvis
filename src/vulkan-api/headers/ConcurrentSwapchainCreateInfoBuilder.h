@@ -3,11 +3,12 @@
 
 #include "DefaultSwapchainCreateInfoBuilder.h"
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class ConcurrentSwapchainCreateInfoBuilder : public DefaultSwapchainCreateInfoBuilder {
     public:
         ConcurrentSwapchainCreateInfoBuilder(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface,
-                                             VkImageUsageFlags flags, VkSwapchainKHR oldSwapchain = VK_NULL_HANDLE);
+                                             VkImageUsageFlags usageFlags,
+                                             VkSwapchainKHR oldSwapchain = VK_NULL_HANDLE);
 
         ~ConcurrentSwapchainCreateInfoBuilder() override;
 

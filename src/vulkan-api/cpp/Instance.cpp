@@ -7,7 +7,7 @@
 #include "Instance.h"
 
 using namespace std::string_literals;
-using namespace VulkanApiWrapper;
+using namespace VAW;
 using namespace recurvis;
 
 namespace {

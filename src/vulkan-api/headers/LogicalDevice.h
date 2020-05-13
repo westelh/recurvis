@@ -5,7 +5,7 @@
 #include <vulkan/vulkan.h>
 #include "PhysicalDevice.h"
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class LogicalDevice {
     public:
         LogicalDevice(const PhysicalDevice &physicalDevice, VkPhysicalDeviceFeatures featuresToUse,
@@ -28,10 +28,14 @@ namespace VulkanApiWrapper {
 
         [[nodiscard]] std::vector<std::u8string_view> getEnabledExtensions() const noexcept;
 
+        [[nodiscard]] const PhysicalDevice &getPhysicalDevice() const;
+
         [[nodiscard]] bool checkIfExtensionEnabled(std::u8string_view extensionName) const noexcept;
 
     private:
         VkDevice handler{};
+
+        PhysicalDevice physicalDevice;
 
         std::vector<VkQueue> queues;
 

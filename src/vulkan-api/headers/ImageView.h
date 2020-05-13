@@ -4,7 +4,7 @@
 #include <memory>
 #include <vulkan/vulkan.h>
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class LogicalDevice;
 
     class ImageView {

@@ -6,7 +6,7 @@
 #include "PhysicalDevice.h"
 #include "ImageView.h"
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class LogicalDevice;
 
     class SwapchainCreateInfoBuilder;
@@ -51,6 +51,8 @@ namespace VulkanApiWrapper {
         [[nodiscard]] VkBool32 isClipped() const noexcept;
 
         [[nodiscard]] std::vector<VkImage> getSwapChainImages() const;
+
+        VkSwapchainKHR getHandler() const;
 
     private:
         pLogicalDevice logicalDevice;

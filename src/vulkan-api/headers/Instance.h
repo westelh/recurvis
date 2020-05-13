@@ -7,7 +7,7 @@
 
 // TODO:Add flag support
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class Instance {
     public:
         Instance(const Version &appVersion, const Version &engineVersion, const Version &apiVersion,

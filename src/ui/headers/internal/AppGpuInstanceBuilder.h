@@ -6,7 +6,7 @@
 
 class AbstractApp;
 
-class AppGpuInstanceBuilder : public VulkanApiWrapper::InstanceBuilder {
+class AppGpuInstanceBuilder : public VAW::InstanceBuilder {
 private:
     std::shared_ptr<AbstractApp> app;
 

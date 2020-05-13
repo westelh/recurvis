@@ -1,7 +1,7 @@
 #include "DefaultSwapchainCreateInfoBuilder.h"
 #include "VulkanError.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 namespace {
     inline VkSurfaceCapabilitiesKHR queryCapabilities(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface) {
@@ -62,7 +62,7 @@ DefaultSwapchainCreateInfoBuilder::DefaultSwapchainCreateInfoBuilder(VkPhysicalD
         capabilities(queryCapabilities(physicalDevice, surface)),
         availableFormats(queryFormats(physicalDevice, surface)),
         availablePresentModes(queryPresentModes(physicalDevice, surface)) {
-
+    if (flags == 0) throw std::invalid_argument("Flags are not set!");
 }
 
 void DefaultSwapchainCreateInfoBuilder::setSurface() {

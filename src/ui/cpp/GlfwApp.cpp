@@ -12,7 +12,7 @@
 #include "Instance.h"
 
 using namespace std::string_literals;
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 bool GlfwApp::initialized = false;
 

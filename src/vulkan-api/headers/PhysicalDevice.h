@@ -7,7 +7,7 @@
 
 struct VkPhysicalDevice_T;
 
-namespace VulkanApiWrapper {
+namespace VAW {
     struct QueueFamily;
 
     class PhysicalDevice {

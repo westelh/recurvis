@@ -7,7 +7,7 @@
 #include <vulkan/vulkan.h>
 #include "Instance.h"
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class InstanceBuilder {
     public:
         virtual void setAppName() = 0;

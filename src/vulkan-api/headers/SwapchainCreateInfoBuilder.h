@@ -3,7 +3,7 @@
 
 #include <vulkan/vulkan.h>
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class SwapchainCreateInfoBuilder {
     public:
         virtual void setSurface() = 0;

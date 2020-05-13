@@ -28,9 +28,9 @@ public:
 
     // TODO:hide this implementation
     struct Impl {
-        VulkanApiWrapper::Instance instance;
+        VAW::Instance instance;
 
-        explicit Impl(VulkanApiWrapper::Instance &&i) : instance(std::move(i)) {}
+        explicit Impl(VAW::Instance &&i) : instance(std::move(i)) {}
     };
 
 private:

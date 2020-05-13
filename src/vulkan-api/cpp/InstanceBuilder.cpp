@@ -1,9 +1,9 @@
 #include "util.h"
 #include "InstanceBuilder.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
-Instance VulkanApiWrapper::InstanceBuilder::build() {
+Instance VAW::InstanceBuilder::build() {
     return Instance(appVersion.value(),
                     engineVersion.value(),
                     apiVersion.value(),

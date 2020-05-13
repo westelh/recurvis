@@ -6,7 +6,7 @@
 #include "SwapchainCreateInfoBuilderDirector.h"
 #include "LogicalDevice.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 namespace {
     // TODO: implement validateCreateInfo()
@@ -125,4 +125,8 @@ VkPresentModeKHR SwapChain::getPresentMode() const noexcept {
 
 VkBool32 SwapChain::isClipped() const noexcept {
     return clipped;
+}
+
+VkSwapchainKHR SwapChain::getHandler() const {
+    return handler;
 }

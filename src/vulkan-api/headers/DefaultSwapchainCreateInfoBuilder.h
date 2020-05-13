@@ -6,7 +6,7 @@
 #include "PhysicalDevice.h"
 #include "SwapchainCreateInfoBuilder.h"
 
-namespace VulkanApiWrapper {
+namespace VAW {
     class DefaultSwapchainCreateInfoBuilder : public SwapchainCreateInfoBuilder {
     public:
         DefaultSwapchainCreateInfoBuilder(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface,

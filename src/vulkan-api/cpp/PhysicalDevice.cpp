@@ -3,7 +3,7 @@
 #include "util.h"
 #include "PhysicalDevice.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 using namespace recurvis;
 
 namespace {

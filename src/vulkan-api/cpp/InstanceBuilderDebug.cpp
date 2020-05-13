@@ -1,7 +1,7 @@
 #include <Logger.h>
 #include "InstanceBuilderDebug.h"
 
-using namespace VulkanApiWrapper;
+using namespace VAW;
 
 InstanceBuilderDebug::InstanceBuilderDebug(std::unique_ptr<InstanceBuilder> &&ptr)
         : InstanceBuilder(), appGpuInstanceBuilder(std::move(ptr)) {
@@ -75,7 +75,7 @@ void InstanceBuilderDebug::setAllDeclaredLayers() {
         for (std::size_t i = 1; const auto &layer : appGpuInstanceBuilder->getAllDeclaredLayers().value()) {
             RvLoggerDebugM("Layer {} of {} is {}", i, size, recurvis::Logger::passWithoutCodeCvt(layer));
             RvLoggerDebugM("Check availability of layer {} => {}", recurvis::Logger::passWithoutCodeCvt(layer),
-                           VulkanApiWrapper::Instance::supportsLayer(layer));
+                           VAW::Instance::supportsLayer(layer));
             ++i;
         }
     } else {
@@ -92,7 +92,7 @@ void InstanceBuilderDebug::setAllDeclaredExtensions() {
         for (auto i = 1; const auto &extension : extensions.value()) {
             RvLoggerDebugM("Extension {} of {} is {}", i, size, recurvis::Logger::passWithoutCodeCvt(extension));
             RvLoggerDebugM("Check availability of extension {} => {}", recurvis::Logger::passWithoutCodeCvt(extension),
-                           VulkanApiWrapper::Instance::supportsExtension(extension));
+                           VAW::Instance::supportsExtension(extension));
             for (const auto &availableLayer : Instance::enumerateAvailableLayerNames()) {
                 RvLoggerDebugM("Check Availability of extension {} on layer {} => {}",
                                recurvis::Logger::passWithoutCodeCvt(extension),
@@ -113,6 +113,6 @@ Instance InstanceBuilderDebug::build() {
     return std::move(build);
 }
 
-std::unique_ptr<InstanceBuilder> VulkanApiWrapper::makeDebugBuilderFrom(std::unique_ptr<InstanceBuilder> &&origin) {
+std::unique_ptr<InstanceBuilder> VAW::makeDebugBuilderFrom(std::unique_ptr<InstanceBuilder> &&origin) {
     return std::make_unique<InstanceBuilderDebug>(std::move(origin));
 }
