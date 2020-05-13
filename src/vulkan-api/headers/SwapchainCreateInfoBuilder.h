@@ -36,6 +36,32 @@ namespace VulkanApiWrapper {
 
         virtual void setOldSwapchain() = 0;
 
+        [[nodiscard]] uint32_t getMinImageCount() const noexcept;
+
+        [[nodiscard]] VkFormat getFormat() const noexcept;
+
+        [[nodiscard]] VkColorSpaceKHR getColorSpace() const noexcept;
+
+        [[nodiscard]] VkExtent2D getExtent() const noexcept;
+
+        [[nodiscard]] uint32_t getArrayLayers() const noexcept;
+
+        [[nodiscard]] VkImageUsageFlags getImageUsage() const noexcept;
+
+        [[nodiscard]] VkSharingMode getImageSharingMode() const noexcept;
+
+        [[nodiscard]] uint32_t getQueueFamilyIndexCount() const noexcept;
+
+        [[nodiscard]] const uint32_t *getQueueFamilyIndices() const noexcept;
+
+        [[nodiscard]] VkSurfaceTransformFlagBitsKHR getPreTransform() const noexcept;
+
+        [[nodiscard]] VkCompositeAlphaFlagsKHR getCompositeAlpha() const noexcept;
+
+        [[nodiscard]] VkPresentModeKHR getPresentMode() const noexcept;
+
+        [[nodiscard]] VkBool32 isClipped() const noexcept;
+
         virtual VkSwapchainCreateInfoKHR build() = 0;
 
         SwapchainCreateInfoBuilder() {

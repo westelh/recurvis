@@ -28,12 +28,56 @@ namespace VulkanApiWrapper {
 
         virtual ~SwapChain();
 
+        [[nodiscard]] uint32_t getMinImageCount() const noexcept;
+
+        [[nodiscard]] VkFormat getFormat() const noexcept;
+
+        [[nodiscard]] VkColorSpaceKHR getColorSpace() const noexcept;
+
+        [[nodiscard]] VkExtent2D getExtent() const noexcept;
+
+        [[nodiscard]] VkImageUsageFlags getUsageFlags() const noexcept;
+
+        [[nodiscard]] VkSharingMode getSharingMode() const noexcept;
+
+        [[nodiscard]] std::vector<uint32_t> getQueueFamilyIndices() const noexcept;
+
+        [[nodiscard]] VkSurfaceTransformFlagBitsKHR getPreTransform() const noexcept;
+
+        [[nodiscard]] VkCompositeAlphaFlagsKHR getCompositeAlpha() const noexcept;
+
+        [[nodiscard]] VkPresentModeKHR getPresentMode() const noexcept;
+
+        [[nodiscard]] VkBool32 isClipped() const noexcept;
+
         [[nodiscard]] std::vector<VkImage> getSwapChainImages() const;
 
     private:
         pLogicalDevice logicalDevice;
 
-        pInfoBuilder infoBuilder;
+        uint32_t minImageCount;
+
+        VkFormat format;
+
+        VkColorSpaceKHR colorSpace;
+
+        VkExtent2D extent;
+
+        VkImageUsageFlags usageFlags;
+
+        VkSharingMode sharingMode;
+
+        uint32_t queueFamilyIndicesCount;
+
+        const uint32_t *pQueueFamilyIndices;
+
+        VkSurfaceTransformFlagBitsKHR preTransform;
+
+        VkCompositeAlphaFlagsKHR compositeAlpha;
+
+        VkPresentModeKHR presentMode;
+
+        VkBool32 clipped;
 
         VkSwapchainKHR handler;
 

@@ -112,7 +112,7 @@ void DefaultSwapchainCreateInfoBuilder::setOldSwapchain() {
 }
 
 VkSwapchainCreateInfoKHR DefaultSwapchainCreateInfoBuilder::build() {
-    return VkSwapchainCreateInfoKHR();
+    return createInfo;
 }
 
 VkSurfaceFormatKHR

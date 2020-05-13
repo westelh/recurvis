@@ -9,8 +9,13 @@
 #include <set>
 #include <vulkan/vulkan.h>
 #include <LogicalDevice.h>
+#include <VulkanError.h>
 #include "PhysicalDevice.h"
+#include "ConcurrentSwapchainCreateInfoBuilder.h"
 #include "Instance.h"
+#include "SwapChain.h"
+
+// TODO:Rename VulkanApiWrapper to VAW
 
 void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::shared_ptr<VulkanSurface> &surface);
 
@@ -33,7 +38,6 @@ int main([[maybe_unused]]int argc, [[maybe_unused]]char **argv) {
 
     app->main_loop();
 }
-
 
 void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::shared_ptr<VulkanSurface> &surface) {
     ////////////////////////////////////////////////////////////////////////
@@ -73,9 +77,42 @@ void testCode(const std::shared_ptr<VulkanGpuInstance> &instance, const std::sha
     }
 
     VkPhysicalDeviceFeatures features{};
-    std::vector<std::string> deviceExtensions{""};
-    VulkanApiWrapper::LogicalDevice logicalDevice(targetDevice, features, queueCreateInfos, {});
+    std::vector<std::u8string> deviceExtensions{u8"VK_KHR_swapchain"};
+    auto logicalDevice = std::make_shared<VulkanApiWrapper::LogicalDevice>(targetDevice, features, queueCreateInfos,
+                                                                           deviceExtensions);
 
-    [[maybe_unused]] const auto &queues = logicalDevice.getQueues();
+    [[maybe_unused]] const auto &queues = logicalDevice->getQueues();
+
+    VulkanApiWrapper::SwapChain swapChain(logicalDevice, std::unique_ptr<VulkanApiWrapper::SwapchainCreateInfoBuilder>(
+            new VulkanApiWrapper::ConcurrentSwapchainCreateInfoBuilder(targetDevice.getDeviceHandle(),
+                                                                       surface->getHandler(), 0))
+    );
+
+    std::vector<VkImageView> swapChainImageViews;
+    swapChainImageViews.resize(swapChain.getSwapChainImages().size());
+    for (size_t i = 0; i < swapChain.getSwapChainImages().size(); i++) {
+        VkImageViewCreateInfo createInfo{};
+        createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        createInfo.image = swapChain.getSwapChainImages()[i];
+        createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        createInfo.format = swapChain.getFormat();
+        createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        createInfo.subresourceRange.baseMipLevel = 0;
+        createInfo.subresourceRange.levelCount = 1;
+        createInfo.subresourceRange.baseArrayLayer = 0;
+        createInfo.subresourceRange.layerCount = 1;
+        if (auto result = vkCreateImageView(logicalDevice->getHandler(), &createInfo, nullptr, &swapChainImageViews[i]);
+                result != VK_SUCCESS) {
+            throw std::runtime_error("failed to create image views!");
+        }
+    }
+
+    for (auto imageView : swapChainImageViews) {
+        vkDestroyImageView(logicalDevice->getHandler(), imageView, nullptr);
+    }
     ////////////////////////////////////////////////////////////////////////
 }

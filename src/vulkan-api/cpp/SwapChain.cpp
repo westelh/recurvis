@@ -1,4 +1,5 @@
 #include <utility>
+#include <algorithm>
 #include "SwapChain.h"
 #include "VulkanError.h"
 #include "SwapchainCreateInfoBuilder.h"
@@ -37,11 +38,23 @@ namespace {
 
 SwapChain::SwapChain(pLogicalDevice logicalDevice_, pInfoBuilder &&infoBuilder_) :
         logicalDevice(std::move(logicalDevice_)),
-        infoBuilder(std::move(infoBuilder_)),
+        minImageCount(infoBuilder_ ? infoBuilder_->getMinImageCount() : 0),
+        format(infoBuilder_ ? infoBuilder_->getFormat() : VkFormat{}),
+        colorSpace(infoBuilder_ ? infoBuilder_->getColorSpace() : VkColorSpaceKHR{}),
+        extent(infoBuilder_ ? infoBuilder_->getExtent() : VkExtent2D{}),
+        usageFlags(infoBuilder_ ? infoBuilder_->getImageUsage() : VkImageUsageFlagBits{}),
+        sharingMode(infoBuilder_ ? infoBuilder_->getImageSharingMode() : VkSharingMode{}),
+        queueFamilyIndicesCount(infoBuilder_ ? infoBuilder_->getQueueFamilyIndexCount() : 0),
+        pQueueFamilyIndices(infoBuilder_ ? infoBuilder_->getQueueFamilyIndices() : nullptr),
+        preTransform(infoBuilder_ ? infoBuilder_->getPreTransform() : VkSurfaceTransformFlagBitsKHR{}),
+        compositeAlpha(infoBuilder_ ? infoBuilder_->getCompositeAlpha() : VkCompositeAlphaFlagBitsKHR{}),
+        presentMode(infoBuilder_ ? infoBuilder_->getPresentMode() : VkPresentModeKHR{}),
+        clipped(infoBuilder_ ? infoBuilder_->isClipped() : VK_FALSE),
         handler(nullptr),
         swapChainImages(),
         imageViews() {
-    if (!infoBuilder) throw std::invalid_argument("info builder cannot be null!");
+    if (!infoBuilder_) throw std::invalid_argument("info builder cannot be null!");
+
     if (!logicalDevice) throw std::invalid_argument("Logical device cannot be null!");
     if (!validateDevice(*logicalDevice)) throw std::invalid_argument("Invalid device!");
     auto info = SwapchainCreateInfoBuilderDirector{std::move(infoBuilder_)}.construct();
@@ -65,4 +78,51 @@ SwapChain::SwapChain(SwapChain &&move) noexcept:
 
 std::vector<VkImage> SwapChain::getSwapChainImages() const {
     return swapChainImages;
+}
+
+uint32_t SwapChain::getMinImageCount() const noexcept {
+    return minImageCount;
+}
+
+VkFormat SwapChain::getFormat() const noexcept {
+    return format;
+}
+
+VkColorSpaceKHR SwapChain::getColorSpace() const noexcept {
+    return colorSpace;
+}
+
+VkExtent2D SwapChain::getExtent() const noexcept {
+    return extent;
+}
+
+VkImageUsageFlags SwapChain::getUsageFlags() const noexcept {
+    return usageFlags;
+}
+
+VkSharingMode SwapChain::getSharingMode() const noexcept {
+    return sharingMode;
+}
+
+std::vector<uint32_t> SwapChain::getQueueFamilyIndices() const noexcept {
+    std::vector<uint32_t> ret(queueFamilyIndicesCount);
+    auto indices = pQueueFamilyIndices;
+    std::copy(indices, indices + queueFamilyIndicesCount, ret.begin());
+    return ret;
+}
+
+VkSurfaceTransformFlagBitsKHR SwapChain::getPreTransform() const noexcept {
+    return preTransform;
+}
+
+VkCompositeAlphaFlagsKHR SwapChain::getCompositeAlpha() const noexcept {
+    return compositeAlpha;
+}
+
+VkPresentModeKHR SwapChain::getPresentMode() const noexcept {
+    return presentMode;
+}
+
+VkBool32 SwapChain::isClipped() const noexcept {
+    return clipped;
 }

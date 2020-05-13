@@ -6,7 +6,7 @@ using namespace VulkanApiWrapper;
 SwapchainCreateInfoBuilderDirector::SwapchainCreateInfoBuilderDirector(
         std::unique_ptr<SwapchainCreateInfoBuilder> builder_) :
         builder(std::move(builder_)) {
-
+    if (!builder) throw std::invalid_argument("builder cannot be null!");
 }
 
 SwapchainCreateInfoBuilderDirector::~SwapchainCreateInfoBuilderDirector() = default;
