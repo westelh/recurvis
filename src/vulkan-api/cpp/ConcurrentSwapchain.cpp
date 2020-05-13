@@ -9,8 +9,13 @@ namespace {
     using pBuilder = std::unique_ptr<VAW::SwapchainCreateInfoBuilder>;
 
     pBuilder
-    makeBuilder(VkPhysicalDevice device, VkSurfaceKHR surface, VkImageUsageFlagBits usage, VkSwapchainKHR old) {
-        return pBuilder(new ConcurrentSwapchainCreateInfoBuilder(device, surface, usage, old));
+    makeBuilder(VkPhysicalDevice device, VkSurfaceKHR surface, VkImageUsageFlagBits usage,
+                std::optional<VkSwapchainKHR> old) {
+        if (old.has_value()) {
+            return pBuilder(new ConcurrentSwapchainCreateInfoBuilder(device, surface, usage, old.value()));
+        } else {
+            return pBuilder(new ConcurrentSwapchainCreateInfoBuilder(device, surface, usage));
+        }
     }
 }
 
@@ -19,7 +24,6 @@ ConcurrentSwapchain::ConcurrentSwapchain(const pLogicalDevice &logicalDevice,
                                          VkImageUsageFlagBits usage,
                                          std::optional<VkSwapchainKHR> old) :
         SwapChain(logicalDevice,
-                  makeBuilder(logicalDevice->getPhysicalDevice().getDeviceHandle(), surface, usage, old.value_or(
-                          reinterpret_cast<VkSwapchainKHR_T *>(VK_NULL_HANDLE)))) {
+                  makeBuilder(logicalDevice->getPhysicalDevice().getDeviceHandle(), surface, usage, old)) {
 
 }
